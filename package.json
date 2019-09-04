@@ -1,6 +1,6 @@
 {
   "name": "@kamila-lab/react-uikit",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Lib for web develop bassed in React and UiKit",
   "main": "dist/components/index.js",
   "scripts": {
@@ -27,6 +27,7 @@
   },
   "homepage": "https://github.com/ycgarrido/react-uikit#readme",
   "dependencies": {
+    "object-path": "^0.11.4",
     "uikit": "^3.1.9"
   },
   "devDependencies": {
