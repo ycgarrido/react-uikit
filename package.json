@@ -1,6 +1,6 @@
 {
   "name": "@kamila-lab/react-uikit",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Lib for web develop bassed in React and UiKit",
   "main": "dist/components/index.js",
   "scripts": {
