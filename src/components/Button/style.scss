@@ -1,0 +1,9 @@
+.uk-button {
+  text-transform: capitalize;
+
+  &.uk-button-default.uk-open {
+    background-color: #1e87f0;
+    color: #fff;
+    border: solid 1px #1e87f0;
+  }
+}

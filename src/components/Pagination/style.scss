@@ -1,0 +1,25 @@
+$border: 1px solid #e5e5e5;
+
+.uk-pagination {
+  > * {
+    padding: 0 10px;
+  }
+  &.uk-border {
+    li:first-child {
+      border-left: $border;
+    }
+    li:last-child {
+      border-right: $border;
+    }
+    li {
+      border-top: $border;
+      border-bottom: $border;
+
+      button {
+        &.uk-button-text::before {
+          border-bottom: none;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,17 @@
+.uk-navigation {
+  .uk-list {
+    a {
+      &.uk-active {
+        li {
+          background-color: #1e87f0;
+        }
+      }
+      li {
+        margin-top: 0;
+      }
+    }
+  }
+  &::-webkit-scrollbar {
+    width: 0px !important;
+  }
+}

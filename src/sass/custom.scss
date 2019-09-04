@@ -1,0 +1,72 @@
+/*
+ * Height
+ */
+.uk-height-100vh {
+  height: 100vh;
+}
+.uk-height-100 {
+  height: 100%;
+}
+/*
+ * Cursors
+ */
+.uk-cursor-zoom-in {
+  cursor: zoom-in;
+}
+
+.uk-cursor-pointer {
+  cursor: pointer;
+}
+
+/*
+ * Backgounds
+ */
+.uk-background-white {
+  background-color: #fff;
+}
+
+/*
+ * Paddings
+ */
+.uk-padding-xsmall {
+  padding: 8px;
+}
+
+/*
+ * Skeleton
+ */
+.uk-skeleton {
+  .uk-element {
+    -webkit-animation-duration: 1s;
+    animation-duration: 1s;
+    -webkit-animation-fill-mode: forwards;
+    animation-fill-mode: forwards;
+    -webkit-animation-iteration-count: infinite;
+    animation-iteration-count: infinite;
+    -webkit-animation-name: shine-lines;
+    animation-name: shine-lines;
+    -webkit-animation-timing-function: linear;
+    animation-timing-function: linear;
+    background: #eeeeee;
+    background: linear-gradient(to right, #eeeeee 8%, #dddddd 18%, #eeeeee 33%);
+    background-size: 900px 100px;
+  }
+}
+
+@keyframes shine-lines {
+  0% {
+    background-position: -468px 0;
+  }
+  100% {
+    background-position: 468px 0;
+  }
+}
+
+body {
+  font-family: "Lato", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+}
+
+.uk-main-page-container::-webkit-scrollbar {
+  width: 0px !important;
+}

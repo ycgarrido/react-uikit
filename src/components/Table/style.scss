@@ -1,0 +1,22 @@
+.uk-table-wrapper {
+  .uk-table {
+    &.uk-border {
+      border: 1px solid #e5e5e5;
+    }
+    .uk-content-tooltip {
+      max-width: 300px;
+    }
+    tbody {
+      tr {
+        td {
+          vertical-align: middle;
+        }
+      }
+    }
+  }
+  .uk-search {
+    .uk-input {
+      height: 30px;
+    }
+  }
+}

@@ -1,0 +1,10 @@
+.uk-navbar-container {
+  height: 60px;
+  .uk-navbar-nav {
+    li > {
+      a > {
+        min-height: 60px;
+      }
+    }
+  }
+}

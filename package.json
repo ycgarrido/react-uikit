@@ -1,0 +1,30 @@
+{
+  "name": "@kamila-lab/react-uikit",
+  "version": "0.0.1",
+  "description": "Lib for web develop bassed in React and UiKit",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ycgarrido/react-uikit.git"
+  },
+  "keywords": [
+    "react",
+    "uikit",
+    "web",
+    "develop",
+    "framework",
+    "ui"
+  ],
+  "author": "ycgarrido@gmail.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ycgarrido/react-uikit/issues"
+  },
+  "homepage": "https://github.com/ycgarrido/react-uikit#readme",
+  "dependencies": {
+    "uikit": "^3.1.9"
+  }
+}
