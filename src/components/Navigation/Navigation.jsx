@@ -1,13 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Link } from "gatsby";
+import Link from "next/link";
 import { List, Icon, Image, Container, Separator } from "..";
 
 const Navigation = ({ items, ...props }) => {
   return (
     <div className="uk-tile uk-tile-secondary uk-padding-remove uk-navigation uk-height-100vh uk-overflow-auto">
       <Container shadow="xlarge">
-        <Link to="/_admin" className="uk-margin-small-right">
+        <Link href="/_admin" className="uk-margin-small-right">
           <Image src="logo.png" alt="Kamila logo" />
         </Link>
       </Container>
@@ -16,7 +16,7 @@ const Navigation = ({ items, ...props }) => {
         {items.map(item => (
           <Link
             key={item.route}
-            to={item.route}
+            href={item.route}
             className="uk-link-reset"
             activeClassName="uk-active"
             partiallyActive
@@ -29,7 +29,7 @@ const Navigation = ({ items, ...props }) => {
         ))}
         <Separator className="uk-margin-remove" />
         <Link
-          to="/_admin/model"
+          href="/_admin/model"
           className="uk-link-reset"
           activeClassName="uk-active"
           partiallyActive
