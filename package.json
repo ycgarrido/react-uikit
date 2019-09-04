@@ -2,9 +2,11 @@
   "name": "@kamila-lab/react-uikit",
   "version": "0.0.1",
   "description": "Lib for web develop bassed in React and UiKit",
-  "main": "index.js",
+  "main": "dist/components/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepublishOnly": "npm run transpile",
+    "transpile": "babel src -d dist --copy-files"
   },
   "repository": {
     "type": "git",
@@ -26,5 +28,12 @@
   "homepage": "https://github.com/ycgarrido/react-uikit#readme",
   "dependencies": {
     "uikit": "^3.1.9"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.5.5",
+    "@babel/core": "^7.5.5",
+    "@babel/plugin-proposal-class-properties": "^7.5.5",
+    "@babel/preset-env": "^7.5.5",
+    "@babel/preset-react": "^7.0.0"
   }
 }
