@@ -1,25 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { StaticQuery, graphql } from "gatsby";
 import { useStyles } from "../../helpers";
 
-const Image = ({ alt, ...props }) => {
+const Image = ({ alt, src, ...props }) => {
   let cls = `${useStyles(props)}`;
   cls = cls || null;
-  return (
-    <StaticQuery
-      query={graphql`
-        query($src: String) {
-          file(relativePath: { eq: $src }) {
-            publicURL
-          }
-        }
-      `}
-      render={data => (
-        <img src={data.file.publicURL} className={cls} alt={alt} />
-      )}
-    />
-  );
+  return <img src={src} className={cls} alt={alt} />;
 };
 
 Image.propTypes = {
