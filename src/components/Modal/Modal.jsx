@@ -23,8 +23,33 @@ Modal.Confirm = ({
   onAccept,
   closeWhenAccept
 }) => {
+  const reference = React.useRef(null);
+
+  const close = () => {
+    reference.current.classList.remove("uk-open");
+    setTimeout(() => {
+      reference.current.style = {};
+    }, 500);
+  };
+
+  const handleClose = () => {
+    close();
+    onCancel();
+  };
+
+  const handleAccept = () => {
+    if (closeWhenAccept) close();
+    onAccept();
+  };
+
   return (
-    <div id={id} data-uk-modal>
+    <div
+      id={id}
+      data-uk-modal
+      ref={ref => {
+        reference.current = ref;
+      }}
+    >
       <Container className="uk-modal-dialog uk-modal-body">
         {header && <h4 className="uk-h4">{header}</h4>}
         <p>
@@ -32,15 +57,14 @@ Modal.Confirm = ({
           {message}
         </p>
         <p className="uk-text-right">
-          <Button className="uk-modal-close" size="small" onClick={onCancel}>
+          <Button size="small" onClick={handleClose}>
             Cancel
           </Button>
           <Button
-            className={closeWhenAccept ? "uk-modal-close" : null}
             color="primary"
             size="small"
             marginSmallLeft
-            onClick={onAccept}
+            onClick={handleAccept}
           >
             Accept
           </Button>

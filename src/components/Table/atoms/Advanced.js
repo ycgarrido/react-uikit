@@ -17,6 +17,7 @@ import {
   Icon
 } from "../../";
 import usePreview from "../hooks/usePreview";
+import { useId } from "../../../hooks";
 
 const getVisibleColumns = ({ columns }) =>
   columns
@@ -82,6 +83,7 @@ const Advanced = ({
   onSearch,
   onSelectionChange,
   onSortChange,
+  onUpdate,
   limit,
   count,
   page,
@@ -98,7 +100,7 @@ const Advanced = ({
   noDataLabel,
   ...props
 }) => {
-  const cls = `uk-table uk-border uk-table-hover uk-table-divider uk-table-small ${useStyles(
+  const cls = `uk-table uk-border uk-table-hover uk-table-divider uk-table-small uk-margin-remove-top uk-margin-small-bottom ${useStyles(
     props
   )}`;
   const [visibleColumns, setVisibleColumns] = React.useState(
@@ -106,97 +108,111 @@ const Advanced = ({
   );
   const [selectedItems, setSelectedItems] = React.useState([]);
   const [showFilter, setShowFilter] = React.useState(false);
+  const _id = useId();
   let removeId = null;
   return (
-    <Container className="uk-table-wrapper">
-      {loading && <Skeleton />}
-      {toolbar}
-      {columns.length !== 0 && (
-        <Container marginSmallBottom float="right">
-          {data.length !== 0 && showSimpleFilter && (
-            <Search onChange={onSearch} />
-          )}
-          {showAdvancedFilter && (
-            <Button
-              marginSmallLeft
-              icon="more"
-              size="small"
-              onClick={() => handleFilters({ showFilter, setShowFilter })}
-            >
-              More filters
-            </Button>
-          )}
-          {showFilter && showAdvancedFilter && (
-            <Filter
-              columns={columns}
-              onChange={handleFiltersChange}
-              onClose={() => handleFilters({ showFilter, setShowFilter })}
-            />
-          )}
-          {showColumnsFilter && (
-            <Dropdown icon=" list" size="small" label="Columns" marginSmallLeft>
-              <List>
-                {columns.map(col => (
-                  <List.Item key={col.ui.index}>
-                    <Checkbox
-                      defaultChecked={visibleColumns.includes(col.ui.index)}
-                      onChange={e =>
-                        handleVisibleColumns({
-                          value: e.target.checked,
-                          visibleColumns,
-                          column: col.ui.index,
-                          setVisibleColumns
-                        })
-                      }
-                    >
-                      {col.ui.label}
-                    </Checkbox>
-                  </List.Item>
-                ))}
-              </List>
-            </Dropdown>
-          )}
-        </Container>
-      )}
-      {data.length !== 0 && (
-        <>
-          <table className={cls}>
-            {columns.length !== 0 && visibleColumns.length !== 0 && (
-              <Head>
-                <Row>
-                  {visibleColumns.length !== 0 && showSelectionColumn && (
-                    <Column size="shrink">
-                      <Checkbox />
-                    </Column>
-                  )}
-                  {columns.map(col =>
-                    visibleColumns.includes(col.ui.index) ? (
-                      <Column
-                        onClick={() =>
-                          handleSort({
-                            onSortChange,
-                            sortOption,
-                            field: col.ui.index
-                          })
-                        }
-                        key={col.ui.index}
-                        size={col.config.size}
-                        cursor="pointer"
-                        sorting={
-                          sortOption && sortOption.field === col.ui.index
-                            ? sortOption.value
-                            : null
-                        }
-                      >
-                        {col.ui.label}
-                      </Column>
-                    ) : null
-                  )}
-                  <Column width="small" />
-                </Row>
-              </Head>
+    <>
+      <Container className="uk-table-wrapper">
+        {loading && <Skeleton />}
+        {(toolbar || columns.length === 0) && (
+          <Grid marginSmallBottom>
+            {toolbar && (
+              <Container flex="left" width="1-2">
+                {toolbar}
+              </Container>
             )}
-            {data.length !== 0 && (
+            {columns.length !== 0 && (
+              <Container flex="right" width="1-2">
+                {showSimpleFilter && <Search onChange={onSearch} />}
+                {showAdvancedFilter && (
+                  <Button
+                    marginSmallLeft
+                    icon="more"
+                    size="small"
+                    onClick={() => handleFilters({ showFilter, setShowFilter })}
+                  >
+                    More filters
+                  </Button>
+                )}
+                {showFilter && showAdvancedFilter && (
+                  <Filter
+                    columns={columns}
+                    onChange={handleFiltersChange}
+                    onClose={() => handleFilters({ showFilter, setShowFilter })}
+                  />
+                )}
+                {showColumnsFilter && (
+                  <Dropdown
+                    icon=" list"
+                    size="small"
+                    label="Columns"
+                    marginSmallLeft
+                  >
+                    <List>
+                      {columns.map(col => (
+                        <List.Item key={col.ui.index}>
+                          <Checkbox
+                            defaultChecked={visibleColumns.includes(
+                              col.ui.index
+                            )}
+                            onChange={e =>
+                              handleVisibleColumns({
+                                value: e.target.checked,
+                                visibleColumns,
+                                column: col.ui.index,
+                                setVisibleColumns
+                              })
+                            }
+                            label={col.ui.label}
+                            labelAlign="right"
+                          ></Checkbox>
+                        </List.Item>
+                      ))}
+                    </List>
+                  </Dropdown>
+                )}
+              </Container>
+            )}
+          </Grid>
+        )}
+        {data.length !== 0 && (
+          <>
+            <table className={cls}>
+              {columns.length !== 0 && visibleColumns.length !== 0 && (
+                <Head>
+                  <Row>
+                    {visibleColumns.length !== 0 && showSelectionColumn && (
+                      <Column size="shrink">
+                        <Checkbox />
+                      </Column>
+                    )}
+                    {columns.map(col =>
+                      visibleColumns.includes(col.ui.index) ? (
+                        <Column
+                          onClick={() =>
+                            handleSort({
+                              onSortChange,
+                              sortOption,
+                              field: col.ui.index
+                            })
+                          }
+                          key={col.ui.index}
+                          size={col.config.size}
+                          cursor="pointer"
+                          sorting={
+                            sortOption && sortOption.field === col.ui.index
+                              ? sortOption.value
+                              : null
+                          }
+                        >
+                          {col.ui.label}
+                        </Column>
+                      ) : null
+                    )}
+                    <Column width="small" />
+                  </Row>
+                </Head>
+              )}
               <Body>
                 {data.map((row, indexRow) => (
                   <Row key={row[idField]}>
@@ -235,6 +251,9 @@ const Advanced = ({
                         color="text"
                         size="small"
                         icon="file-edit"
+                        onClick={() =>
+                          onUpdate({ _id: row[idField], item: row })
+                        }
                       />
                       <Button
                         tooltip="Remove record"
@@ -242,57 +261,60 @@ const Advanced = ({
                         size="small"
                         icon="trash"
                         marginSmallLeft
-                        toggle="target: #remove-modal"
+                        toggle={`target: #remove-modal-table-${_id}`}
                         onClick={() => (removeId = row[idField])}
                       />
                     </Cell>
                   </Row>
                 ))}
               </Body>
-            )}
-          </table>
+            </table>
 
-          {(showPagination || showLimit) && (
-            <Grid>
-              {showLimit && (
-                <Container>
-                  <Limit defaultValue={limit} onChange={onLimitChange} />
-                </Container>
-              )}
-              {showPagination && (
-                <Container width="expand">
-                  <Pagination
-                    flex="right"
-                    height="1-1"
-                    count={count}
-                    page={page}
-                    limit={limit}
-                    onChange={onPageChange}
-                  />
-                </Container>
-              )}
-            </Grid>
-          )}
-          <Modal.Confirm
-            id="remove-modal"
-            header="Remove record"
-            message="Do you want remove selected record?"
-            closeWhenAccept
-            onAccept={() => onRemoveItem({ _id: removeId })}
-          />
-        </>
-      )}
-      {data.length === 0 && (
-        <Container
-          className="uk-tile uk-tile-muted"
-          marginSmallTop
-          padding="small"
-        >
-          <Icon name="info" ratio={1} marginSmallRight />
-          {noDataLabel}
-        </Container>
-      )}
-    </Container>
+            {(showPagination || showLimit) && (
+              <Grid>
+                {showLimit && (
+                  <Container>
+                    <Limit defaultValue={limit} onChange={onLimitChange} />
+                  </Container>
+                )}
+                {showPagination && (
+                  <Container width="expand">
+                    <Pagination
+                      flex="right"
+                      height="1-1"
+                      count={count}
+                      page={page}
+                      limit={limit}
+                      onChange={onPageChange}
+                    />
+                  </Container>
+                )}
+              </Grid>
+            )}
+          </>
+        )}
+        {data.length === 0 && (
+          <Container
+            className="uk-tile uk-tile-muted"
+            marginSmallTop
+            padding="small"
+          >
+            <Icon name="info" ratio={1} marginSmallRight />
+            {noDataLabel}
+          </Container>
+        )}
+      </Container>
+      <Modal.Confirm
+        id={`remove-modal-table-${_id}`}
+        header="Remove record"
+        message="Do you want remove selected record?"
+        closeWhenAccept
+        onAccept={() => {
+          console.log(removeId);
+          onRemoveItem({ _id: removeId });
+        }}
+      />
+    </>
   );
 };
 
@@ -319,6 +341,7 @@ Advanced.propTypes = {
   onSearch: PropTypes.func,
   onSelectionChange: PropTypes.func,
   onSortChange: PropTypes.func,
+  onUpdate: PropTypes.func,
   page: PropTypes.number,
   sortOption: PropTypes.objectOf(PropTypes.any),
   showAdvancedFilter: PropTypes.bool,
@@ -348,6 +371,7 @@ Advanced.defaultProps = {
   onSearch: () => {},
   onSelectionChange: () => {},
   onSortChange: () => {},
+  onUpdate: () => {},
   page: null,
   sortOption: null,
   showAdvancedFilter: true,

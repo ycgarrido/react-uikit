@@ -45,6 +45,16 @@ const usePreview = ({ type, value, id }) => {
       if (value === true) return <Icon name="check" />;
       if (value === false) return <Icon name="close" />;
       return "";
+    case "string:tooltip":
+      return (
+        <span
+          title={value}
+          data-uk-tooltip="pos: left"
+          className="uk-cursor-zoom-in"
+        >
+          {"..."}
+        </span>
+      );
     default:
       return value;
   }

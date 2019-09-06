@@ -10,7 +10,14 @@ const Remote = ({
   removeData,
   onCount,
   idField,
-  onCreate
+  onCreate,
+  onUpdate,
+  showAdvancedFilter,
+  showColumnsFilter,
+  showLimit,
+  showPagination,
+  showSelectionColumn,
+  showSimpleFilter
 }) => {
   const [loadingData, setLoadingData] = React.useState(false);
   const [data, setData] = React.useState([]);
@@ -86,46 +93,55 @@ const Remote = ({
   };
 
   return (
-    <>
-      <Button color="primary" size="small" float="left" onClick={onCreate}>
-        Add New
-      </Button>
-      {selectedItems.length !== 0 && (
+    <Advanced
+      columns={columns}
+      data={data}
+      limit={limit}
+      onPageChange={onPageChange}
+      onLimitChange={onLimitChange}
+      onRemoveItem={onRemove}
+      onSearch={onSearch}
+      onSelectionChange={onSelectionChange}
+      onSortChange={onSortChange}
+      onUpdate={onUpdate}
+      count={count}
+      page={page}
+      loading={loadingData}
+      sortOption={sort}
+      idField={idField}
+      showAdvancedFilter={showAdvancedFilter}
+      showColumnsFilter={showColumnsFilter}
+      showLimit={showLimit}
+      showPagination={showPagination}
+      showSelectionColumn={showSelectionColumn}
+      showSimpleFilter={showSimpleFilter}
+      toolbar={
         <>
-          <Button
-            marginSmallLeft
-            color="danger"
-            size="small"
-            float="left"
-            toggle="target: #remove-all-modal"
-          >
-            Remove
+          <Button color="primary" size="small" float="left" onClick={onCreate}>
+            Add New
           </Button>
-          <Modal.Confirm
-            id="remove-all-modal"
-            header="Remove records"
-            message="Do you want remove selected records?"
-            onAccept={removeSelected}
-          />
+          {selectedItems.length !== 0 && (
+            <>
+              <Button
+                marginSmallLeft
+                color="danger"
+                size="small"
+                float="left"
+                toggle="target: #remove-all-modal"
+              >
+                Remove
+              </Button>
+              <Modal.Confirm
+                id="remove-all-modal"
+                header="Remove records"
+                message="Do you want remove selected records?"
+                onAccept={removeSelected}
+              />
+            </>
+          )}
         </>
-      )}
-      <Advanced
-        columns={columns}
-        data={data}
-        limit={limit}
-        onPageChange={onPageChange}
-        onLimitChange={onLimitChange}
-        onRemoveItem={onRemove}
-        onSearch={onSearch}
-        onSelectionChange={onSelectionChange}
-        onSortChange={onSortChange}
-        count={count}
-        page={page}
-        loading={loadingData}
-        sortOption={sort}
-        idField={idField}
-      />
-    </>
+      }
+    />
   );
 };
 
@@ -144,7 +160,14 @@ Remote.propTypes = {
   findCount: PropTypes.func,
   onCount: PropTypes.func,
   onCreate: PropTypes.func,
-  removeData: PropTypes.func
+  onUpdate: PropTypes.func,
+  removeData: PropTypes.func,
+  showAdvancedFilter: PropTypes.bool,
+  showColumnsFilter: PropTypes.bool,
+  showLimit: PropTypes.bool,
+  showPagination: PropTypes.bool,
+  showSelectionColumn: PropTypes.bool,
+  showSimpleFilter: PropTypes.bool
 };
 
 Remote.defaultProps = {
@@ -154,7 +177,14 @@ Remote.defaultProps = {
   findCount: () => new Promise(resolve => resolve(0)),
   onCount: () => {},
   onCreate: () => {},
-  removeData: () => new Promise(resolve => resolve(false))
+  onUpdate: () => {},
+  removeData: () => new Promise(resolve => resolve(false)),
+  showAdvancedFilter: true,
+  showColumnsFilter: true,
+  showLimit: true,
+  showPagination: true,
+  showSelectionColumn: true,
+  showSimpleFilter: true
 };
 
 export default React.memo(Remote);

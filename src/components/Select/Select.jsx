@@ -53,7 +53,6 @@ const Select = ({
           defaultValue={defaultValue}
           name={name}
         >
-          <option value="">Select...</option>
           {options.map(option => (
             <option key={option[valueField]} value={option[valueField]}>
               {option[labelField]}

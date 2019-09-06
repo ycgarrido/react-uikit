@@ -18,13 +18,14 @@ const Input = ({
   maxLength,
   minLength,
   name,
+  rows,
   ...props
 }) => {
   const [valid, setValid] = React.useState(true);
   let cls = `uk-inline ${useStyles(props)}`;
   cls = cls || null;
   let lastChange = null;
-  let inputCls = "uk-input";
+  let inputCls = type === "textarea" ? "uk-textarea" : "uk-input";
   if (!valid) inputCls += ` uk-form-danger`;
 
   const checkValid = ({ value }) => {
@@ -65,14 +66,26 @@ const Input = ({
         {icon && iconAlign === "left" && (
           <Icon name={icon} className="uk-form-icon" ratio={iconRatio} />
         )}
-        <input
-          className={inputCls}
-          type={type}
-          placeholder={placeholder}
-          onChange={e => handleChange({ value: e.target.value })}
-          defaultValue={defaultValue}
-          name={name}
-        />
+        {type !== "textarea" && (
+          <input
+            className={inputCls}
+            type={type}
+            placeholder={placeholder}
+            onChange={e => handleChange({ value: e.target.value })}
+            defaultValue={defaultValue}
+            name={name}
+          />
+        )}
+        {type === "textarea" && (
+          <textarea
+            className={inputCls}
+            placeholder={placeholder}
+            onChange={e => handleChange({ value: e.target.value })}
+            defaultValue={defaultValue}
+            name={name}
+            rows={rows}
+          />
+        )}
         {icon && iconAlign === "right" && (
           <Icon name={icon} className="uk-form-icon" ratio={iconRatio} />
         )}
@@ -95,6 +108,7 @@ Input.propTypes = {
   onValid: PropTypes.func,
   placeholder: PropTypes.string,
   required: PropTypes.bool,
+  rows: PropTypes.number,
   type: PropTypes.string
 };
 
@@ -112,6 +126,7 @@ Input.defaultProps = {
   onValid: () => {},
   placeholder: null,
   required: false,
+  rows: 5,
   type: "text"
 };
 
