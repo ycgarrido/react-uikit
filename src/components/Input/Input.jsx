@@ -2,101 +2,110 @@ import React from "react";
 import PropTypes from "prop-types";
 import { useStyles } from "../../helpers";
 import { Icon, Container } from "../";
+import checkValidInput from "../Form/helpers/checkValidInput";
 
-const Input = ({
-  type,
-  icon,
-  iconAlign,
-  iconRatio,
-  placeholder,
-  onChange,
-  onValid,
-  debounce,
-  label,
-  defaultValue,
-  required,
-  maxLength,
-  minLength,
-  name,
-  rows,
-  ...props
-}) => {
-  const [valid, setValid] = React.useState(true);
-  let cls = `uk-inline ${useStyles(props)}`;
-  cls = cls || null;
-  let lastChange = null;
-  let inputCls = type === "textarea" ? "uk-textarea" : "uk-input";
-  if (!valid) inputCls += ` uk-form-danger`;
+class Input extends React.Component {
+  state = {
+    valid: true,
+    value: this.props.value
+  };
+  lastChange = null;
 
-  const checkValid = ({ value }) => {
-    if (required && (!value || !value.trim())) return false;
-    if (minLength && value && value.length < minLength) return false;
-    if (maxLength && value && value.length > maxLength) return false;
-    return true;
+  componentDidUpdate = prevProps => {
+    this.onUpdate(prevProps);
   };
 
-  const handleChange = ({ value }) => {
+  onUpdate = prevProps => {
+    const { value } = this.props;
+    if (value !== prevProps.value) this.setState({ value });
+  };
+
+  handleChange = ({ value }) => {
+    const { onChange, onValid, debounce, name } = this.props;
+    const { valid } = this.state;
     let _valid = true;
-    lastChange = new Date().getTime();
-    if (debounce >= 100)
-      setTimeout(() => {
-        if (
-          lastChange &&
-          new Date().getTime() - lastChange >= debounce &&
-          new Date().getTime() - lastChange <= debounce + 5
-        ) {
-          _valid = checkValid({ value });
-          if (valid !== _valid) setValid(_valid);
-          if (_valid) onChange({ value });
-          onValid({ valid: _valid, name });
-        }
-      }, debounce);
-    else onChange({ value });
+    this.lastChange = new Date().getTime();
+    this.setState({ value }, () => {
+      if (debounce >= 100)
+        setTimeout(() => {
+          if (
+            this.lastChange &&
+            new Date().getTime() - this.lastChange >= debounce &&
+            new Date().getTime() - this.lastChange <= debounce + 20
+          ) {
+            this.lastChange = null;
+            _valid = checkValidInput({ ...this.props, value });
+            if (valid !== _valid) this.setState({ valid: _valid });
+            onChange({ value });
+            onValid({ valid: _valid, name });
+          }
+        }, debounce);
+      else onChange({ value });
+    });
   };
 
-  return (
-    <Container className={cls}>
-      {label && (
-        <label className="uk-form-label">
-          {label}
-          {required && <span className="uk-text-danger uk-text-bold">*</span>}
-        </label>
-      )}
-      <Container className="uk-form-controls">
-        {icon && iconAlign === "left" && (
-          <Icon name={icon} className="uk-form-icon" ratio={iconRatio} />
+  render = () => {
+    const {
+      type,
+      icon,
+      iconAlign,
+      iconRatio,
+      placeholder,
+      label,
+      required,
+      name,
+      rows
+    } = this.props;
+    const { value, valid } = this.state;
+    let cls = `uk-inline ${useStyles(this.props)}`;
+    cls = cls || null;
+    let inputCls = type === "textarea" ? "uk-textarea" : "uk-input";
+    if (!valid) inputCls += ` uk-form-danger`;
+
+    return (
+      <Container className={cls}>
+        {label && (
+          <label className="uk-form-label">
+            {label}
+            {required && <span className="uk-text-danger uk-text-bold">*</span>}
+          </label>
         )}
-        {type !== "textarea" && (
-          <input
-            className={inputCls}
-            type={type}
-            placeholder={placeholder}
-            onChange={e => handleChange({ value: e.target.value })}
-            defaultValue={defaultValue}
-            name={name}
-          />
-        )}
-        {type === "textarea" && (
-          <textarea
-            className={inputCls}
-            placeholder={placeholder}
-            onChange={e => handleChange({ value: e.target.value })}
-            defaultValue={defaultValue}
-            name={name}
-            rows={rows}
-          />
-        )}
-        {icon && iconAlign === "right" && (
-          <Icon name={icon} className="uk-form-icon" ratio={iconRatio} />
-        )}
+        <Container className="uk-form-controls">
+          {icon && iconAlign === "left" && (
+            <Icon name={icon} className="uk-form-icon" ratio={iconRatio} />
+          )}
+          {type !== "textarea" && (
+            <input
+              className={inputCls}
+              type={type}
+              placeholder={placeholder}
+              onChange={e => this.handleChange({ value: e.target.value })}
+              value={value}
+              name={name}
+            />
+          )}
+          {type === "textarea" && (
+            <textarea
+              className={inputCls}
+              placeholder={placeholder}
+              onChange={e => this.handleChange({ value: e.target.value })}
+              value={value}
+              name={name}
+              rows={rows}
+            />
+          )}
+          {icon && iconAlign === "right" && (
+            <Icon name={icon} className="uk-form-icon" ratio={iconRatio} />
+          )}
+        </Container>
       </Container>
-    </Container>
-  );
-};
+    );
+  };
+}
 
 Input.propTypes = {
   debounce: PropTypes.number,
-  defaultValue: PropTypes.string,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   icon: PropTypes.string,
   iconAlign: PropTypes.oneOf(["left", "right"]),
   iconRatio: PropTypes.number,
@@ -114,7 +123,7 @@ Input.propTypes = {
 
 Input.defaultProps = {
   debounce: 1000,
-  defaultValue: "",
+  value: "",
   icon: null,
   iconAlign: "left",
   iconRatio: 0.7,
@@ -130,4 +139,4 @@ Input.defaultProps = {
   type: "text"
 };
 
-export default React.memo(Input);
+export default Input;

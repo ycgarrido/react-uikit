@@ -11,6 +11,9 @@
         td {
           vertical-align: middle;
         }
+        &.uk-row-selected {
+          background-color: #ffffad;
+        }
       }
     }
   }
@@ -18,5 +21,9 @@
     .uk-input {
       height: 30px;
     }
+  }
+  .uk-table-loading {
+    background-color: #ffffffad;
+    z-index: 1;
   }
 }

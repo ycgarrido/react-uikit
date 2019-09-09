@@ -47,7 +47,7 @@ const Filter = ({ columns, onChange, onClose }) => {
     ["ui", "config"]
   );
   const [filters, setFilters] = React.useState({ [colsOptions[0]]: "sdsss" });
-  console.log(filters);
+
   return (
     <Container position="absolute" width="1-1" className="uk-filter">
       <Card shadow="xlarge" animation="scale-up">

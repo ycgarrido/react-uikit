@@ -10,14 +10,20 @@ const Remote = ({
   removeData,
   onCount,
   idField,
+  onItemClick,
   onCreate,
   onUpdate,
+  renderRemoveButton,
+  renderUpdateButton,
+  selectionMode,
   showAdvancedFilter,
   showColumnsFilter,
   showLimit,
   showPagination,
-  showSelectionColumn,
-  showSimpleFilter
+  seleccionable,
+  showSimpleFilter,
+  selectionType,
+  onSelectionChange
 }) => {
   const [loadingData, setLoadingData] = React.useState(false);
   const [data, setData] = React.useState([]);
@@ -47,19 +53,34 @@ const Remote = ({
       query
     })
       .then(response => {
-        setData(response);
+        if (Array.isArray(response)) setData(response);
         setLoadingData(false);
       })
       .catch(() => {
         setLoadingData(false);
+        UIkit.notification(
+          `<span uk-icon='icon: warning'></span> Some error ocurred when find data`,
+          {
+            status: "warning"
+          }
+        );
       });
   };
 
   const _count = ({ query }) => {
-    findCount({ query }).then(response => {
-      setCount(response);
-      onCount({ count: response });
-    });
+    findCount({ query })
+      .then(response => {
+        if (Number(response)) setCount(response);
+        onCount({ count: response });
+      })
+      .catch(() => {
+        UIkit.notification(
+          `<span uk-icon='icon: warning'></span> Some error ocurred when find count`,
+          {
+            status: "warning"
+          }
+        );
+      });
   };
 
   const onPageChange = ({ page }) => {
@@ -67,8 +88,9 @@ const Remote = ({
     _find({ limit, page, sort, query });
   };
 
-  const onSelectionChange = ({ selected }) => {
+  const handleSelection = ({ selected }) => {
     setSelectedItems(selected);
+    onSelectionChange({ selected });
   };
 
   const removeSelected = () => {
@@ -97,11 +119,12 @@ const Remote = ({
       columns={columns}
       data={data}
       limit={limit}
+      onItemClick={onItemClick}
       onPageChange={onPageChange}
       onLimitChange={onLimitChange}
       onRemoveItem={onRemove}
       onSearch={onSearch}
-      onSelectionChange={onSelectionChange}
+      onSelectionChange={handleSelection}
       onSortChange={onSortChange}
       onUpdate={onUpdate}
       count={count}
@@ -109,11 +132,15 @@ const Remote = ({
       loading={loadingData}
       sortOption={sort}
       idField={idField}
+      renderRemoveButton={renderRemoveButton}
+      renderUpdateButton={renderUpdateButton}
+      selectionMode={selectionMode}
       showAdvancedFilter={showAdvancedFilter}
       showColumnsFilter={showColumnsFilter}
       showLimit={showLimit}
       showPagination={showPagination}
-      showSelectionColumn={showSelectionColumn}
+      seleccionable={seleccionable}
+      selectionType={selectionType}
       showSimpleFilter={showSimpleFilter}
       toolbar={
         <>
@@ -160,13 +187,19 @@ Remote.propTypes = {
   findCount: PropTypes.func,
   onCount: PropTypes.func,
   onCreate: PropTypes.func,
+  onItemClick: PropTypes.func,
+  onSelectionChange: PropTypes.func,
   onUpdate: PropTypes.func,
   removeData: PropTypes.func,
+  renderRemoveButton: PropTypes.func,
+  renderUpdateButton: PropTypes.func,
+  selectionMode: PropTypes.oneOf(["row", "check"]),
+  selectionType: PropTypes.oneOf(["single", "multiple"]),
   showAdvancedFilter: PropTypes.bool,
   showColumnsFilter: PropTypes.bool,
   showLimit: PropTypes.bool,
   showPagination: PropTypes.bool,
-  showSelectionColumn: PropTypes.bool,
+  seleccionable: PropTypes.bool,
   showSimpleFilter: PropTypes.bool
 };
 
@@ -177,13 +210,19 @@ Remote.defaultProps = {
   findCount: () => new Promise(resolve => resolve(0)),
   onCount: () => {},
   onCreate: () => {},
+  onItemClick: () => {},
+  onSelectionChange: () => {},
   onUpdate: () => {},
   removeData: () => new Promise(resolve => resolve(false)),
+  renderRemoveButton: () => true,
+  renderUpdateButton: () => true,
+  selectionMode: "check",
   showAdvancedFilter: true,
   showColumnsFilter: true,
   showLimit: true,
   showPagination: true,
-  showSelectionColumn: true,
+  seleccionable: true,
+  selectionType: "multiple",
   showSimpleFilter: true
 };
 

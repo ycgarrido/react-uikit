@@ -33,16 +33,22 @@ List.defaultProps = {
   useHover: true
 };
 
-List.Item = ({ children, ...props }) => {
+List.Item = ({ children, onClick, ...props }) => {
   const cls = `uk-margin-remove-top ${useStyles(props)}`;
-  return <li className={cls}>{children}</li>;
+  return (
+    <li className={cls} onClick={onClick}>
+      {children}
+    </li>
+  );
 };
 
 List.Item.propTypes = {
+  onClick: PropTypes.func,
   padding: PropTypes.string
 };
 
 List.Item.defaultProps = {
+  onClick: () => {},
   padding: "xsmall"
 };
 

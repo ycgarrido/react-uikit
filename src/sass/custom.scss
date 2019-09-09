@@ -33,6 +33,17 @@
 }
 
 /*
+ * Notification
+ */
+.uk-notification {
+  .uk-notification-message {
+    box-shadow: 0 14px 25px rgba(0, 0, 0, 0.16);
+    font-size: 12px;
+    border: solid 1px;
+  }
+}
+
+/*
  * Skeleton
  */
 .uk-skeleton {

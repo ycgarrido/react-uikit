@@ -14,7 +14,8 @@ import {
   Modal,
   Search,
   Filter,
-  Icon
+  Icon,
+  Spinner
 } from "../../";
 import usePreview from "../hooks/usePreview";
 import { useId } from "../../../hooks";
@@ -43,11 +44,14 @@ const handleSelection = ({
   onSelectionChange,
   selectedItems,
   setSelectedItems,
-  checked
+  checked,
+  selectionType
 }) => {
-  const newSelectedItems = [...selectedItems];
-  if (checked && !selectedItems.includes(value)) newSelectedItems.push(value);
-  else if (!checked && selectedItems.includes(value))
+  let newSelectedItems = [...selectedItems];
+  if (checked && !selectedItems.includes(value)) {
+    if (selectionType === "multiple") newSelectedItems.push(value);
+    else newSelectedItems = [value];
+  } else if (!checked && selectedItems.includes(value))
     newSelectedItems.splice(selectedItems.indexOf(value), 1);
   if (newSelectedItems !== selectedItems) {
     setSelectedItems(newSelectedItems);
@@ -70,7 +74,7 @@ const handleFilters = ({ setShowFilter, showFilter }) => {
 };
 
 const handleFiltersChange = () => {
-  console.log("si");
+  //Here filter change code
 };
 
 const Advanced = ({
@@ -90,14 +94,18 @@ const Advanced = ({
   loading,
   sortOption,
   idField,
+  renderRemoveButton,
+  renderUpdateButton,
+  selectionMode,
   showAdvancedFilter,
   showColumnsFilter,
   showLimit,
   showPagination,
-  showSelectionColumn,
+  seleccionable,
   showSimpleFilter,
   toolbar,
   noDataLabel,
+  selectionType,
   ...props
 }) => {
   const cls = `uk-table uk-border uk-table-hover uk-table-divider uk-table-small uk-margin-remove-top uk-margin-small-bottom ${useStyles(
@@ -112,8 +120,8 @@ const Advanced = ({
   let removeId = null;
   return (
     <>
-      <Container className="uk-table-wrapper">
-        {loading && <Skeleton />}
+      <Container className="uk-table-wrapper uk-position-relative">
+        {loading && <Advanced.Loader />}
         {(toolbar || columns.length === 0) && (
           <Grid marginSmallBottom>
             {toolbar && (
@@ -181,11 +189,13 @@ const Advanced = ({
               {columns.length !== 0 && visibleColumns.length !== 0 && (
                 <Head>
                   <Row>
-                    {visibleColumns.length !== 0 && showSelectionColumn && (
-                      <Column size="shrink">
-                        <Checkbox />
-                      </Column>
-                    )}
+                    {visibleColumns.length !== 0 &&
+                      seleccionable &&
+                      selectionMode === "check" && (
+                        <Column size="shrink">
+                          <Checkbox />
+                        </Column>
+                      )}
                     {columns.map(col =>
                       visibleColumns.includes(col.ui.index) ? (
                         <Column
@@ -215,27 +225,48 @@ const Advanced = ({
               )}
               <Body>
                 {data.map((row, indexRow) => (
-                  <Row key={row[idField]}>
-                    {visibleColumns.length !== 0 && showSelectionColumn && (
-                      <Cell>
-                        <Checkbox
-                          onChange={e =>
-                            handleSelection({
-                              checked: e.target.checked,
-                              onSelectionChange,
-                              selectedItems,
-                              setSelectedItems,
-                              value: row[idField]
-                            })
-                          }
-                        />
-                      </Cell>
-                    )}
+                  <Row
+                    key={row[idField]}
+                    selected={
+                      seleccionable &&
+                      selectionMode === "row" &&
+                      selectedItems.includes(row[idField])
+                    }
+                    onClick={() => {
+                      if (selectionMode === "row" && seleccionable)
+                        handleSelection({
+                          checked: !selectedItems.includes(row[idField]),
+                          onSelectionChange,
+                          selectedItems,
+                          setSelectedItems,
+                          value: row[idField],
+                          selectionType
+                        });
+                    }}
+                  >
+                    {visibleColumns.length !== 0 &&
+                      seleccionable &&
+                      selectionMode === "check" && (
+                        <Cell>
+                          <Checkbox
+                            onChange={e =>
+                              handleSelection({
+                                checked: e.target.checked,
+                                onSelectionChange,
+                                selectedItems,
+                                setSelectedItems,
+                                value: row[idField],
+                                selectionType
+                              })
+                            }
+                          />
+                        </Cell>
+                      )}
                     {columns.map((col, colIndex) =>
                       visibleColumns.includes(col.ui.index) ? (
                         <Cell
                           key={col.ui.index}
-                          onClick={() => onItemClick(row)}
+                          onClick={() => onItemClick({ item: row })}
                         >
                           {usePreview({
                             type: col.config.type,
@@ -246,24 +277,32 @@ const Advanced = ({
                       ) : null
                     )}
                     <Cell flex="right">
-                      <Button
-                        tooltip="Edit record"
-                        color="text"
-                        size="small"
-                        icon="file-edit"
-                        onClick={() =>
-                          onUpdate({ _id: row[idField], item: row })
-                        }
-                      />
-                      <Button
-                        tooltip="Remove record"
-                        color="text"
-                        size="small"
-                        icon="trash"
-                        marginSmallLeft
-                        toggle={`target: #remove-modal-table-${_id}`}
-                        onClick={() => (removeId = row[idField])}
-                      />
+                      {renderUpdateButton({ item: row }) && (
+                        <Button
+                          tooltip="Edit record"
+                          color="text"
+                          size="small"
+                          icon="file-edit"
+                          onClick={() =>
+                            onUpdate({
+                              _id: row[idField],
+                              item: row,
+                              index: indexRow
+                            })
+                          }
+                        />
+                      )}
+                      {renderRemoveButton({ item: row }) && (
+                        <Button
+                          tooltip="Remove record"
+                          color="text"
+                          size="small"
+                          icon="trash"
+                          marginSmallLeft
+                          toggle={`target: #remove-modal-table-${_id}`}
+                          onClick={() => (removeId = row[idField])}
+                        />
+                      )}
                     </Cell>
                   </Row>
                 ))}
@@ -310,13 +349,26 @@ const Advanced = ({
         message="Do you want remove selected record?"
         closeWhenAccept
         onAccept={() => {
-          console.log(removeId);
           onRemoveItem({ _id: removeId });
         }}
       />
     </>
   );
 };
+
+Advanced.Loader = () => (
+  <Container
+    width="1-1"
+    height="1-1"
+    flex="middle"
+    className="uk-position-absolute uk-table-loading"
+  >
+    <Container width="1-1" textAlign="center">
+      <Spinner />
+      <Container>Loading...</Container>
+    </Container>
+  </Container>
+);
 
 Advanced.propTypes = {
   colums: PropTypes.arrayOf(
@@ -343,12 +395,16 @@ Advanced.propTypes = {
   onSortChange: PropTypes.func,
   onUpdate: PropTypes.func,
   page: PropTypes.number,
+  renderRemoveButton: PropTypes.func,
+  renderUpdateButton: PropTypes.func,
+  selectionMode: PropTypes.oneOf(["row", "check"]),
   sortOption: PropTypes.objectOf(PropTypes.any),
   showAdvancedFilter: PropTypes.bool,
   showColumnsFilter: PropTypes.bool,
   showLimit: PropTypes.bool,
   showPagination: PropTypes.bool,
-  showSelectionColumn: PropTypes.bool,
+  seleccionable: PropTypes.bool,
+  selectionType: PropTypes.oneOf(["single", "multiple"]),
   showSimpleFilter: PropTypes.bool,
   toolbar: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
@@ -373,12 +429,16 @@ Advanced.defaultProps = {
   onSortChange: () => {},
   onUpdate: () => {},
   page: null,
+  renderRemoveButton: () => true,
+  renderUpdateButton: () => true,
+  selectionMode: "check",
   sortOption: null,
   showAdvancedFilter: true,
   showColumnsFilter: true,
   showLimit: true,
   showPagination: true,
-  showSelectionColumn: true,
+  seleccionable: true,
+  selectionType: "multiple",
   showSimpleFilter: true,
   toolbar: null
 };

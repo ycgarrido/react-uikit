@@ -1,7 +1,10 @@
 .uk-list {
   &.uk-list-use-hover {
-    li:hover {
-      background-color: #00000010;
+    li {
+      cursor: pointer;
+      &:hover {
+        background-color: #00000010;
+      }
     }
   }
 }
