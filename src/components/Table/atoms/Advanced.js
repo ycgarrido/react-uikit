@@ -98,6 +98,7 @@ const Advanced = ({
   renderUpdateButton,
   selectionMode,
   showAdvancedFilter,
+  showColumns,
   showColumnsFilter,
   showLimit,
   showPagination,
@@ -186,43 +187,45 @@ const Advanced = ({
         {data.length !== 0 && (
           <>
             <table className={cls}>
-              {columns.length !== 0 && visibleColumns.length !== 0 && (
-                <Head>
-                  <Row>
-                    {visibleColumns.length !== 0 &&
-                      seleccionable &&
-                      selectionMode === "check" && (
-                        <Column size="shrink">
-                          <Checkbox />
-                        </Column>
+              {columns.length !== 0 &&
+                visibleColumns.length !== 0 &&
+                showColumns && (
+                  <Head>
+                    <Row>
+                      {visibleColumns.length !== 0 &&
+                        seleccionable &&
+                        selectionMode === "check" && (
+                          <Column size="shrink">
+                            <Checkbox />
+                          </Column>
+                        )}
+                      {columns.map(col =>
+                        visibleColumns.includes(col.ui.index) ? (
+                          <Column
+                            onClick={() =>
+                              handleSort({
+                                onSortChange,
+                                sortOption,
+                                field: col.ui.index
+                              })
+                            }
+                            key={col.ui.index}
+                            size={col.config.size}
+                            cursor="pointer"
+                            sorting={
+                              sortOption && sortOption.field === col.ui.index
+                                ? sortOption.value
+                                : null
+                            }
+                          >
+                            {col.ui.label}
+                          </Column>
+                        ) : null
                       )}
-                    {columns.map(col =>
-                      visibleColumns.includes(col.ui.index) ? (
-                        <Column
-                          onClick={() =>
-                            handleSort({
-                              onSortChange,
-                              sortOption,
-                              field: col.ui.index
-                            })
-                          }
-                          key={col.ui.index}
-                          size={col.config.size}
-                          cursor="pointer"
-                          sorting={
-                            sortOption && sortOption.field === col.ui.index
-                              ? sortOption.value
-                              : null
-                          }
-                        >
-                          {col.ui.label}
-                        </Column>
-                      ) : null
-                    )}
-                    <Column width="small" />
-                  </Row>
-                </Head>
-              )}
+                      <Column width="small" />
+                    </Row>
+                  </Head>
+                )}
               <Body>
                 {data.map((row, indexRow) => (
                   <Row
@@ -401,6 +404,7 @@ Advanced.propTypes = {
   sortOption: PropTypes.objectOf(PropTypes.any),
   showAdvancedFilter: PropTypes.bool,
   showColumnsFilter: PropTypes.bool,
+  showColumns: PropTypes.bool,
   showLimit: PropTypes.bool,
   showPagination: PropTypes.bool,
   seleccionable: PropTypes.bool,
@@ -434,6 +438,7 @@ Advanced.defaultProps = {
   selectionMode: "check",
   sortOption: null,
   showAdvancedFilter: true,
+  showColumns: true,
   showColumnsFilter: true,
   showLimit: true,
   showPagination: true,

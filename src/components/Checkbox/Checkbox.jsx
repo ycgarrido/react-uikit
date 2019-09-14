@@ -3,21 +3,27 @@ import PropTypes from "prop-types";
 import { useStyles } from "../../helpers";
 import { Container } from "../";
 
-const Checkbox = ({
-  defaultChecked,
-  label,
-  labelAlign,
-  onChange,
-  ...props
-}) => {
+const Checkbox = ({ checked, label, labelAlign, onChange, ...props }) => {
+  const [_checked, _setChecked] = React.useState(checked);
   let cls = `uk-checkbox ${useStyles(props)}`;
   cls = cls || null;
+
+  React.useEffect(() => {
+    if (checked !== _checked) _setChecked(checked);
+  }, [checked]);
 
   const Label = (
     <label className="uk-form-label uk-margin-small-left uk-margin-small-right">
       {label}
     </label>
   );
+
+  const handleChecked = e => {
+    if (e.target.checked !== _checked) {
+      _setChecked(e.target.checked);
+      onChange(e);
+    }
+  };
 
   return (
     <>
@@ -27,8 +33,8 @@ const Checkbox = ({
         <input
           className={cls}
           type="checkbox"
-          defaultChecked={defaultChecked}
-          onChange={onChange}
+          checked={_checked}
+          onChange={handleChecked}
         />
         {label && labelAlign === "right" && Label}
       </Container>
@@ -39,14 +45,14 @@ const Checkbox = ({
 
 Checkbox.propTypes = {
   label: PropTypes.string,
-  defaultChecked: PropTypes.bool,
+  checked: PropTypes.bool,
   labelAlign: PropTypes.oneOf(["top", "bottom", "left", "right"]),
   onChange: PropTypes.func
 };
 
 Checkbox.defaultProps = {
   label: null,
-  defaultChecked: false,
+  checked: false,
   labelAlign: "top",
   onChange: () => {}
 };

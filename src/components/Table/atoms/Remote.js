@@ -17,20 +17,21 @@ const Remote = ({
   renderUpdateButton,
   selectionMode,
   showAdvancedFilter,
+  showColumns,
   showColumnsFilter,
   showLimit,
   showPagination,
   seleccionable,
   showSimpleFilter,
   selectionType,
-  onSelectionChange
+  onSelectionChange,
+  showAddButton
 }) => {
   const [loadingData, setLoadingData] = React.useState(false);
   const [data, setData] = React.useState([]);
   const [count, setCount] = React.useState(0);
   const [limit, setLimit] = React.useState(10);
   const [page, setPage] = React.useState(1);
-  const [selectedItems, setSelectedItems] = React.useState([]);
   const [sort, setSort] = React.useState(null);
   const [query, setQuery] = React.useState(null);
 
@@ -89,8 +90,10 @@ const Remote = ({
   };
 
   const handleSelection = ({ selected }) => {
-    setSelectedItems(selected);
-    onSelectionChange({ selected });
+    onSelectionChange({
+      selected,
+      items: data.filter(d => selected.includes(d[idField]))
+    });
   };
 
   const removeSelected = () => {
@@ -136,6 +139,7 @@ const Remote = ({
       renderUpdateButton={renderUpdateButton}
       selectionMode={selectionMode}
       showAdvancedFilter={showAdvancedFilter}
+      showColumns={showColumns}
       showColumnsFilter={showColumnsFilter}
       showLimit={showLimit}
       showPagination={showPagination}
@@ -144,10 +148,17 @@ const Remote = ({
       showSimpleFilter={showSimpleFilter}
       toolbar={
         <>
-          <Button color="primary" size="small" float="left" onClick={onCreate}>
-            Add New
-          </Button>
-          {selectedItems.length !== 0 && (
+          {showAddButton && (
+            <Button
+              color="primary"
+              size="small"
+              float="left"
+              onClick={onCreate}
+            >
+              Add New
+            </Button>
+          )}
+          {false && (
             <>
               <Button
                 marginSmallLeft
@@ -195,7 +206,9 @@ Remote.propTypes = {
   renderUpdateButton: PropTypes.func,
   selectionMode: PropTypes.oneOf(["row", "check"]),
   selectionType: PropTypes.oneOf(["single", "multiple"]),
+  showAddButton: PropTypes.bool,
   showAdvancedFilter: PropTypes.bool,
+  showColumns: PropTypes.bool,
   showColumnsFilter: PropTypes.bool,
   showLimit: PropTypes.bool,
   showPagination: PropTypes.bool,
@@ -217,7 +230,9 @@ Remote.defaultProps = {
   renderRemoveButton: () => true,
   renderUpdateButton: () => true,
   selectionMode: "check",
+  showAddButton: true,
   showAdvancedFilter: true,
+  showColumns: true,
   showColumnsFilter: true,
   showLimit: true,
   showPagination: true,

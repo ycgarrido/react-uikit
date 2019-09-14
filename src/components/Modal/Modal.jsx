@@ -6,12 +6,14 @@ const Modal = {};
 
 const propTypes = {
   id: PropTypes.string,
-  header: PropTypes.string
+  header: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+  footer: PropTypes.oneOfType([PropTypes.string, PropTypes.node])
 };
 
 const defaultProps = {
   header: null,
-  id: null
+  id: null,
+  footer: null
 };
 
 Modal.Confirm = ({
@@ -91,12 +93,15 @@ Modal.Confirm.defaultProps = {
   onCancel: () => {}
 };
 
-Modal.Custom = ({ header, id, children }) => {
+Modal.Custom = ({ header, id, children, footer }) => {
   return (
     <div id={id} data-uk-modal>
-      <Container className="uk-modal-dialog uk-modal-body">
-        {header && <h4 className="uk-h4">{header}</h4>}
-        {children}
+      <Container className="uk-modal-dialog">
+        {header && <Container className="uk-modal-header">{header}</Container>}
+        {children && (
+          <Container className="uk-modal-body">{children}</Container>
+        )}
+        {footer && <Container className="uk-modal-footer">{footer}</Container>}
       </Container>
     </div>
   );
