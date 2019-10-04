@@ -22,6 +22,8 @@ import Image from "./Image";
 import Navbar from "./Navbar";
 import Separator from "./Separator";
 import Column from "./Column";
+import Text from "./Text";
+import Header from "./Header";
 
 export {
   Input,
@@ -47,5 +49,7 @@ export {
   Image,
   Navbar,
   Separator,
-  Column
+  Column,
+  Text,
+  Header
 };

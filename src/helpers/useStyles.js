@@ -1,70 +1,110 @@
-const sizes = ["small", "medium", "large", "xlarge"];
+import hashBuilder from "./hash";
+import { isBrowser } from "./browser";
 
-const useStyles = props => {
-  let className = "";
-
-  //Background
-  if (props.background) className += `uk-background-${props.background} `;
-  //Animations
-  if (props.animation) className += `uk-animation-${props.animation} `;
-  //Cursors
-  if (props.cursor) className += `uk-cursor-${props.cursor} `;
-  //Flex
-  if (props.flex) className += `uk-flex uk-flex-${props.flex} `;
-  //Float
-  if (props.float) className += `uk-float-${props.float} `;
-  //Overflow
-  if (props.overflow) className += `uk-overflow-${props.overflow} `;
-  //Margin
-  className += margin(props);
-  sizes.forEach(size => {
-    className += margin(props, size);
-  });
-  //Padding
-  if (props.padding === true) className += `uk-padding `;
-  else if (props.padding) className += `uk-padding-${props.padding} `;
-  //Shadow
-  if (props.shadow) className += `uk-box-shadow-${props.shadow} `;
-  //Text align
-  if (props.textAlign) className += `uk-text-${props.textAlign} `;
-  //Position
-  if (props.position) className += `uk-position-${props.position} `;
-  //Height
-  if (props.height) className += `uk-height-${props.height} `;
-  //Width
-  if (props.width) className += `uk-width-${props.width} `;
-  //Height
-  if (props.height) className += `uk-height-${props.height} `;
-  //Child width
-  if (props.childWidth) className += `uk-child-width-${props.childWidth} `;
-  if (props.childSmallWidth)
-    className += `uk-child-width-${props.childSmallWidth}@s `;
-  if (props.childMediumWidth)
-    className += `uk-child-width-${props.childMediumWidth}@m `;
-  if (props.childLargeWidth)
-    className += `uk-child-width-${props.childLargeWidth}@l `;
-  // Classname
-  if (props.className) className += `${props.className} `;
-
-  return className.trim();
+const isRegisteredClass = className => {
+  if (isBrowser()) {
+    if (!window.Kamila) {
+      window.Kamila = {};
+    }
+    if (!window.Kamila.$__registeredClasses) {
+      window.Kamila.$__registeredClasses = [];
+    }
+    return window.Kamila.$__registeredClasses.includes(className);
+  }
+  return false;
 };
 
-const margin = (props, size = "") => {
-  let className = "";
-  const sizeValue = size ? `-${size}` : "";
-  const sizeProp = size ? `${size[0].toUpperCase()}${size.substring(1)}` : "";
-  //Margin
-  if (props[`margin${sizeProp}`]) className += `uk-margin${sizeValue} `;
-  if (props[`margin${sizeProp}Top`]) className += `uk-margin${sizeValue}-top `;
-  if (props[`margin${sizeProp}Bottom`])
-    className += `uk-margin${sizeValue}-bottom `;
-  if (props[`margin${sizeProp}Left`])
-    className += `uk-margin${sizeValue}-left `;
-  if (props[`margin${sizeProp}Right`])
-    className += `uk-margin${sizeValue}-right `;
-  if (props[`margin${sizeProp}Right`])
-    className += `uk-margin${sizeValue}-right `;
+const registerClass = className => {
+  if (isBrowser()) {
+    if (!window.Kamila) {
+      window.Kamila = {};
+    }
+    if (!window.Kamila.$__registeredClasses) {
+      window.Kamila.$__registeredClasses = [];
+    }
+    if (!window.Kamila.$__registeredClasses.includes(className))
+      window.Kamila.$__registeredClasses.push(className);
+  }
+};
+
+const appendClass = styles => {
+  if (isBrowser()) {
+    const element = document.getElementById("kamila-use-styles");
+    if (element) {
+      element.innerHTML = element.innerHTML + " " + styles;
+    } else {
+      const styleNode = styles;
+
+      const body = document.body || document.getElementsByTagName("body")[0];
+      const style = document.createElement("style");
+      style.type = "text/css";
+      style.id = "kamila-use-styles";
+      if (style.styleSheet) {
+        // This is required for IE8 and below.
+        style.styleSheet.cssText = styleNode;
+      } else {
+        style.appendChild(document.createTextNode(styleNode));
+      }
+      body.appendChild(style);
+    }
+  }
+};
+
+const useStyles = props => {
+  let className = props.className || "";
+  const newProps = {};
+  Object.keys(props).map(p => {
+    if (p.startsWith("style-hover")) {
+      if (!newProps[":hover"]) newProps[":hover"] = {};
+      newProps[":hover"][p.substring(12)] = props[p];
+    } else if (p.startsWith("style-focus")) {
+      if (!newProps[":focus"]) newProps[":focus"] = {};
+      newProps[":focus"][p.substring(12)] = props[p];
+    } else if (p.startsWith("style-active")) {
+      if (!newProps[":active"]) newProps[":active"] = {};
+      newProps[":active"][p.substring(13)] = props[p];
+    } else if (p.startsWith("style-disabled")) {
+      if (!newProps[":disabled"]) newProps[":disabled"] = {};
+      newProps[":disabled"][p.substring(15)] = props[p];
+    } else if (p.startsWith("style")) newProps[p.substring(6)] = props[p];
+  });
+  Object.keys(newProps).map(prop => {
+    let content = "";
+    if (typeof newProps[prop] === "string")
+      content = `${newProps[prop] ? `{${prop}:${newProps[prop]}}` : ""}`;
+    else if (typeof newProps[prop] === "object")
+      content = `{${Object.entries(newProps[prop]).reduce(
+        (content, [propName, propValue]) =>
+          propValue ? `${content}${propName}:${propValue};` : "",
+        ""
+      )}}`;
+
+    content = content && content !== "{}" ? content : null;
+    if (content) {
+      if (props.rtl) content = rtl(content);
+      const hash = `fr-class-${hashBuilder(`${prop}${content}`)}`;
+      let contentClass = `.${hash}`;
+      if (prop.startsWith(":")) contentClass += `${prop}${content}`;
+      else if (prop.startsWith("@media"))
+        contentClass = `${prop}{.${hash}${content}}`;
+      else contentClass += content;
+      if (!isRegisteredClass(hash)) {
+        appendClass(contentClass);
+        registerClass(hash);
+      }
+      className += !className.includes(hash) ? ` ${hash}` : "";
+    }
+  });
+
   return className;
+};
+
+const rtl = content => {
+  return content
+    .replace(/right/g, "l-e-f-t")
+    .replace(/left/g, "r-i-g-h-t")
+    .replace(/l-e-f-t/g, "left")
+    .replace(/r-i-g-h-t/g, "right");
 };
 
 export default useStyles;

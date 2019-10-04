@@ -56,7 +56,7 @@ Button.propTypes = {
   ]),
   disabled: PropTypes.bool,
   icon: PropTypes.string,
-  iconAlign: PropTypes.oneOf(["left", "rigth"]),
+  iconAlign: PropTypes.oneOf(["left", "right"]),
   iconRatio: PropTypes.number,
   onClick: PropTypes.func,
   size: PropTypes.oneOf(["small", "medium", "large"]),

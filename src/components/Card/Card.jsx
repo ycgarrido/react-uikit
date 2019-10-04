@@ -3,23 +3,27 @@ import PropTypes from "prop-types";
 import { useStyles } from "../../helpers";
 import { Container, Spinner } from "../";
 
-const Card = ({ color, children, header, loading, ...props }) => {
+const Card = ({ color, children, loading, ...props }) => {
   let cls = useStyles(props);
   if (color) cls += ` uk-card uk-card-${color}`;
   cls = cls || null;
   return (
     <Container className={cls}>
       {loading && <Card.Loader />}
-      {header && <Card.Header>{header}</Card.Header>}
-      {children && <Card.Body>{children}</Card.Body>}
+      {children}
     </Container>
   );
 };
 
-Card.Header = ({ children }) => (
-  <div className="uk-card-header">{children}</div>
-);
-Card.Body = ({ children }) => <div className="uk-card-body">{children}</div>;
+Card.Header = ({ children, ...props }) => {
+  let cls = `uk-card-header ${useStyles(props)}`;
+  return <div className={cls}>{children}</div>;
+};
+
+Card.Body = ({ children, ...props }) => {
+  let cls = `uk-card-body ${useStyles(props)}`;
+  return <div className={cls}>{children}</div>;
+};
 
 Card.Loader = () => (
   <Container
@@ -38,21 +42,16 @@ Card.Loader = () => (
 Card.propTypes = {
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node
-  ]),
-  color: PropTypes.oneOf(["primary", "default", "secondary"]),
-  header: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
     PropTypes.string
   ]),
+  color: PropTypes.oneOf(["primary", "default", "secondary"]),
   loading: PropTypes.bool
 };
 
 Card.defaultProps = {
   children: null,
   color: "default",
-  header: null,
   loading: false
 };
 
