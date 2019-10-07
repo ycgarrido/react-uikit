@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { useStyles } from "../../helpers";
+import useStyles from "../../helpers/useStyles";
 
 const Grid = ({ children, size, ...props }) => {
   let cls = `uk-grid ${useStyles(props)}`;

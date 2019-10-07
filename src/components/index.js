@@ -24,6 +24,7 @@ import Separator from "./Separator";
 import Column from "./Column";
 import Text from "./Text";
 import Header from "./Header";
+import Loader from "./Loader";
 
 export {
   Input,
@@ -51,5 +52,6 @@ export {
   Separator,
   Column,
   Text,
-  Header
+  Header,
+  Loader
 };

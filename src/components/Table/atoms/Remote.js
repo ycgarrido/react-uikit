@@ -1,7 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Advanced } from "./";
-import { Button, Modal } from "../../";
+import Advanced from "./Advanced";
+import Button from "../../Button";
+import Modal from "../../Modal";
 
 const Remote = ({
   columns,
@@ -102,6 +103,12 @@ const Remote = ({
 
   const onRemove = ({ _id }) => {
     removeData({ _id }).then(() => {
+      UIkit.notification(
+        `<span uk-icon='icon: check'></span> Element has been deleted`,
+        {
+          status: "primary"
+        }
+      );
       _find({ limit, page, sort, query });
     });
   };

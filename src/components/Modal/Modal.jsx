@@ -1,6 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Container, Button, Icon } from "../";
+import Container from "../Container";
+import Button from "../Button";
+import Icon from "../Icon";
 
 const Modal = {};
 

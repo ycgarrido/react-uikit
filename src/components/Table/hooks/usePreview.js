@@ -1,5 +1,5 @@
 import React from "react";
-import { Icon } from "../../../components";
+import Icon from "../../../components/Icon";
 
 const usePreview = ({ type, value, id }) => {
   switch (type.toLowerCase()) {

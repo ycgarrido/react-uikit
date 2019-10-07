@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { useStyles } from "../../helpers";
-import { Container } from "../";
+import useStyles from "../../helpers/useStyles";
+import Container from "../Container";
 
 const Navbar = ({ transparent, sticky, children, ...props }) => {
   let cls = `uk-navbar-container ${useStyles(props)}`;

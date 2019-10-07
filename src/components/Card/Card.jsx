@@ -1,7 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { useStyles } from "../../helpers";
-import { Container, Spinner } from "../";
+import useStyles from "../../helpers/useStyles";
+import Container from "../Container";
+import Loader from "../Loader";
 
 const Card = ({ color, children, loading, ...props }) => {
   let cls = useStyles(props);
@@ -9,7 +10,7 @@ const Card = ({ color, children, loading, ...props }) => {
   cls = cls || null;
   return (
     <Container className={cls}>
-      {loading && <Card.Loader />}
+      {loading && <Loader />}
       {children}
     </Container>
   );
@@ -24,20 +25,6 @@ Card.Body = ({ children, ...props }) => {
   let cls = `uk-card-body ${useStyles(props)}`;
   return <div className={cls}>{children}</div>;
 };
-
-Card.Loader = () => (
-  <Container
-    width="1-1"
-    height="1-1"
-    flex="middle"
-    className="uk-position-absolute uk-card-loading"
-  >
-    <Container width="1-1">
-      <Spinner />
-      <Container>Loading...</Container>
-    </Container>
-  </Container>
-);
 
 Card.propTypes = {
   children: PropTypes.oneOfType([

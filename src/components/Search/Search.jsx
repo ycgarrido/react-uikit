@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { useStyles } from "../../helpers";
-import { Input } from "../";
+import useStyles from "../../helpers/useStyles";
+import Input from "../Input";
 
 const Search = ({ onChange, ...props }) => {
   let cls = `uk-search uk-search-default ${useStyles(props)}`;

@@ -1,7 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { useStyles } from "../../helpers";
-import { Icon, Container } from "../";
+import useStyles from "../../helpers/useStyles";
+import Icon from "../Icon";
+import Container from "../Container";
 import checkValidInput from "../Form/helpers/checkValidInput";
 
 class Input extends React.Component {

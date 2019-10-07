@@ -5,7 +5,9 @@ import { isBrowser } from "../helpers/browser";
 import "uikit/dist/css/uikit.min.css";
 
 const Main = ({ children }) => {
-  const [loaded, setLoaded] = React.useState(!!window.UIkit);
+  const [loaded, setLoaded] = React.useState(
+    typeof window !== "undefined" && !window.UIkit ? false : true
+  );
   React.useEffect(() => {
     if (isBrowser()) {
       if (!window.UIkit) {

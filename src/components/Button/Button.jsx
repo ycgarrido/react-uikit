@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { useStyles } from "../../helpers";
-import { Icon } from "../";
+import useStyles from "../../helpers/useStyles";
+import Icon from "../Icon";
 
 const Button = ({
   children,

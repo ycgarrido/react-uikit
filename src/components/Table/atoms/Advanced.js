@@ -1,29 +1,32 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { useStyles } from "../../../helpers";
-import { Body, Cell, Column, Head, Row, Skeleton } from "./";
-import {
-  Checkbox,
-  Pagination,
-  List,
-  Container,
-  Dropdown,
-  Button,
-  Grid,
-  Limit,
-  Modal,
-  Search,
-  Filter,
-  Icon,
-  Spinner
-} from "../../";
+import useStyles from "../../../helpers/useStyles";
+import Body from "./Body";
+import Cell from "./Cell";
+import Column from "./Column";
+import Head from "./Head";
+import Row from "./Row";
+import Checkbox from "../../Checkbox";
+import Pagination from "../../Pagination";
+import List from "../../List";
+import Loader from "../../Loader";
+import Container from "../../Container";
+import Dropdown from "../../Dropdown";
+import Button from "../../Button";
+import Grid from "../../Grid";
+import Limit from "../../Limit";
+import Modal from "../../Modal";
+import Search from "../../Search";
+import Filter from "../../Filter";
+import Icon from "../../Icon";
 import usePreview from "../hooks/usePreview";
-import { useId } from "../../../hooks";
+import useId from "../../../hooks/useId";
 
-const getVisibleColumns = ({ columns }) =>
-  columns
+const getVisibleColumns = ({ columns }) => {
+  return columns
     .filter(column => column.config.visible !== false)
     .map(column => column.ui.index);
+};
 
 const handleVisibleColumns = ({
   value,
@@ -121,21 +124,31 @@ const Advanced = ({
   let removeId = null;
   return (
     <>
-      <Container className="uk-table-wrapper uk-position-relative">
-        {loading && <Advanced.Loader />}
+      <Container className="uk-table-wrapper" style-position="relative">
+        {loading && <Loader />}
         {(toolbar || columns.length === 0) && (
-          <Grid marginSmallBottom>
+          <Grid style-margin-bottom="10px">
             {toolbar && (
-              <Container flex="left" width="1-2">
+              <Container
+                style-display="flex"
+                style-align-items="start"
+                style-flex="1"
+                style-margin="0"
+              >
                 {toolbar}
               </Container>
             )}
             {columns.length !== 0 && (
-              <Container flex="right" width="1-2">
+              <Container
+                style-display="flex"
+                style-justify-content="flex-end"
+                style-flex="1"
+                style-margin="0"
+              >
                 {showSimpleFilter && <Search onChange={onSearch} />}
                 {showAdvancedFilter && (
                   <Button
-                    marginSmallLeft
+                    style-margin-left="10px"
                     icon="more"
                     size="small"
                     onClick={() => handleFilters({ showFilter, setShowFilter })}
@@ -155,15 +168,13 @@ const Advanced = ({
                     icon=" list"
                     size="small"
                     label="Columns"
-                    marginSmallLeft
+                    style-margin-left="10px"
                   >
                     <List>
                       {columns.map(col => (
                         <List.Item key={col.ui.index}>
                           <Checkbox
-                            defaultChecked={visibleColumns.includes(
-                              col.ui.index
-                            )}
+                            checked={visibleColumns.includes(col.ui.index)}
                             onChange={e =>
                               handleVisibleColumns({
                                 value: e.target.checked,
@@ -222,7 +233,7 @@ const Advanced = ({
                           </Column>
                         ) : null
                       )}
-                      <Column width="small" />
+                      <Column style-width="40px" />
                     </Row>
                   </Head>
                 )}
@@ -279,7 +290,7 @@ const Advanced = ({
                         </Cell>
                       ) : null
                     )}
-                    <Cell flex="right">
+                    <Cell>
                       {renderUpdateButton({ item: row }) && (
                         <Button
                           tooltip="Edit record"
@@ -301,7 +312,7 @@ const Advanced = ({
                           color="text"
                           size="small"
                           icon="trash"
-                          marginSmallLeft
+                          style-margin-left="10px"
                           toggle={`target: #remove-modal-table-${_id}`}
                           onClick={() => (removeId = row[idField])}
                         />
@@ -314,23 +325,22 @@ const Advanced = ({
 
             {(showPagination || showLimit) && (
               <Grid>
-                {showLimit && (
-                  <Container>
-                    <Limit defaultValue={limit} onChange={onLimitChange} />
-                  </Container>
-                )}
-                {showPagination && (
-                  <Container width="expand">
+                <Container style-display="flex" style-width="100%">
+                  {showLimit && (
+                    <Container style-margin-right="auto">
+                      <Limit defaultValue={limit} onChange={onLimitChange} />
+                    </Container>
+                  )}
+                  {showPagination && (
                     <Pagination
-                      flex="right"
-                      height="1-1"
                       count={count}
                       page={page}
                       limit={limit}
                       onChange={onPageChange}
+                      style-margin-top="0px"
                     />
-                  </Container>
-                )}
+                  )}
+                </Container>
               </Grid>
             )}
           </>
@@ -338,10 +348,10 @@ const Advanced = ({
         {data.length === 0 && (
           <Container
             className="uk-tile uk-tile-muted"
-            marginSmallTop
-            padding="small"
+            style-margin-top="10px"
+            style-padding="10px"
           >
-            <Icon name="info" ratio={1} marginSmallRight />
+            <Icon name="info" ratio={1} style-margin-right="10px" />
             {noDataLabel}
           </Container>
         )}
@@ -358,20 +368,6 @@ const Advanced = ({
     </>
   );
 };
-
-Advanced.Loader = () => (
-  <Container
-    width="1-1"
-    height="1-1"
-    flex="middle"
-    className="uk-position-absolute uk-table-loading"
-  >
-    <Container width="1-1" textAlign="center">
-      <Spinner />
-      <Container>Loading...</Container>
-    </Container>
-  </Container>
-);
 
 Advanced.propTypes = {
   colums: PropTypes.arrayOf(

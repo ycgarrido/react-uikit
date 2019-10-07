@@ -1,10 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { useStyles } from "../../helpers";
-import { Spinner } from "..";
+import useStyles from "../../helpers/useStyles";
+import Spinner from "../Spinner";
 
 const List = ({ children, showDivider, useHover, showLoader, ...props }) => {
-  let cls = `uk-list uk-margin-remove-bottom ${useStyles(props)}`;
+  let cls = `uk-list ${useStyles(props)}`;
   if (showDivider) cls += " uk-list-divider";
   if (useHover) cls += " uk-list-use-hover";
   cls = cls || null;
@@ -34,7 +34,7 @@ List.defaultProps = {
 };
 
 List.Item = ({ children, onClick, ...props }) => {
-  const cls = `uk-margin-remove-top ${useStyles(props)}`;
+  const cls = useStyles(props);
   return (
     <li className={cls} onClick={onClick}>
       {children}
@@ -44,12 +44,12 @@ List.Item = ({ children, onClick, ...props }) => {
 
 List.Item.propTypes = {
   onClick: PropTypes.func,
-  padding: PropTypes.string
+  "style-padding": PropTypes.string
 };
 
 List.Item.defaultProps = {
   onClick: () => {},
-  padding: "xsmall"
+  "style-padding": "5px"
 };
 
 export default List;

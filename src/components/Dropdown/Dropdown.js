@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { useStyles } from "../../helpers";
-import { Button } from "../";
+import useStyles from "../../helpers/useStyles";
+import Button from "../Button";
 
 const Dropdown = ({ children, icon, label, color, size, ...props }) => {
   let cls = `${useStyles(props)}`;

@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { useStyles } from "../../helpers";
+import useStyles from "../../helpers/useStyles";
 
 const Tile = ({ children, ...props }) => {
   let cls = `uk-tile ${useStyles(props)}`;

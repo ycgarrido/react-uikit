@@ -1,5 +1,5 @@
 import React from "react";
-import { useStyles } from "../../helpers";
+import useStyles from "../../helpers/useStyles";
 
 const Divider = props => {
   let cls = useStyles(props);

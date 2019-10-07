@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { useStyles } from "../../helpers";
+import useStyles from "../../helpers/useStyles";
 
 const Container = ({ children, id, heightMatch, size, ...props }) => {
   let cls = `uk-content ${useStyles(props)}`;

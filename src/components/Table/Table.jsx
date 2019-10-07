@@ -1,7 +1,13 @@
 import React from "react";
-import { useStyles } from "../../helpers";
-import { Container } from "../";
-import { Advanced, Body, Cell, Column, Head, Row, Remote } from "./atoms";
+import useStyles from "../../helpers/useStyles";
+import Container from "../Container";
+import Advanced from "./atoms/Advanced";
+import Body from "./atoms/Body";
+import Cell from "./atoms/Cell";
+import Column from "./atoms/Column";
+import Head from "./atoms/Head";
+import Row from "./atoms/Row";
+import Remote from "./atoms/Remote";
 
 const Table = ({ children, ...props }) => {
   const cls = `uk-table uk-border uk-table-hover uk-table-divider uk-table-small ${useStyles(

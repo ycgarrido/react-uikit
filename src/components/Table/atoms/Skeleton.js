@@ -1,5 +1,6 @@
 import React from "react";
-import { Grid, Container } from "../../";
+import Grid from "../../Grid";
+import Container from "../../Container";
 
 const height = "30px";
 const rowHeight = "41px";

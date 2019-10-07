@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { useStyles } from "../../helpers";
-import { Select } from "../";
+import useStyles from "../../helpers/useStyles";
+import Select from "../Select";
 
 const options = [
   { label: "10", value: 10 },

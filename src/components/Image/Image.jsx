@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { useStyles } from "../../helpers";
+import useStyles from "../../helpers/useStyles";
 
 const Image = ({ alt, src, width, ...props }) => {
   let cls = `${useStyles(props)}`;

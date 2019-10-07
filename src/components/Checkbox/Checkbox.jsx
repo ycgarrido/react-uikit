@@ -1,10 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { useStyles } from "../../helpers";
-import { Container } from "../";
+import useStyles from "../../helpers/useStyles";
+import Container from "../Container";
+import useId from "../../hooks/useId";
 
 const Checkbox = ({ checked, label, labelAlign, onChange, ...props }) => {
   const [_checked, _setChecked] = React.useState(checked);
+  const id = useId();
   let cls = `uk-checkbox ${useStyles(props)}`;
   cls = cls || null;
 
@@ -13,7 +15,10 @@ const Checkbox = ({ checked, label, labelAlign, onChange, ...props }) => {
   }, [checked]);
 
   const Label = (
-    <label className="uk-form-label uk-margin-small-left uk-margin-small-right">
+    <label
+      htmlFor={`kamila-checkbox-${id}`}
+      className="uk-form-label uk-margin-small-left uk-margin-small-right"
+    >
       {label}
     </label>
   );
@@ -35,6 +40,7 @@ const Checkbox = ({ checked, label, labelAlign, onChange, ...props }) => {
           type="checkbox"
           checked={_checked}
           onChange={handleChecked}
+          id={`kamila-checkbox-${id}`}
         />
         {label && labelAlign === "right" && Label}
       </Container>

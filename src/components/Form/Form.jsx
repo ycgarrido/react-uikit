@@ -1,10 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { useStyles } from "../../helpers";
+import useStyles from "../../helpers/useStyles";
 import findInputs from "./helpers/findInputs";
 import useValidChildren from "./hooks/useValidChildren";
 import useFormValid from "./hooks/useFormValid";
-import { Container, Spinner } from "../";
+import Loader from "../Loader";
 
 class Form extends React.Component {
   state = {
@@ -43,26 +43,12 @@ class Form extends React.Component {
 
     return (
       <form id={id} className={cls}>
-        {loading && <Form.Loader />}
+        {loading && <Loader />}
         {children}
       </form>
     );
   };
 }
-
-Form.Loader = () => (
-  <Container
-    width="1-1"
-    height="1-1"
-    flex="middle"
-    className="uk-position-absolute uk-form-loading"
-  >
-    <Container width="1-1" textAlign="center">
-      <Spinner />
-      <Container>Loading...</Container>
-    </Container>
-  </Container>
-);
 
 Form.propTypes = {
   children: PropTypes.oneOfType([

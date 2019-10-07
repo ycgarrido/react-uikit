@@ -1,7 +1,14 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Container, Card, List, Select, Input, Grid, Button, Icon } from "..";
-import { useMapper } from "../../hooks";
+import Container from "../Container";
+import Card from "../Card";
+import List from "../List";
+import Select from "../Select";
+import Input from "../Input";
+import Grid from "../Grid";
+import Button from "../Button";
+import Icon from "../Icon";
+import useMapper from "../../hooks/useMapper";
 
 const operators = [
   ["eq", "Equals"],

@@ -1,9 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Button } from "../";
-import { useStyles } from "../../helpers";
+import Button from "../Button";
+import useStyles from "../../helpers/useStyles";
 
-const numbers = ({ count, page, limit, onChange, loops }) => {
+const numbers = ({ page, onChange, loops }) => {
   const elements = [];
 
   for (let index = 0; index < loops; index++) {
@@ -11,7 +11,7 @@ const numbers = ({ count, page, limit, onChange, loops }) => {
       <li key={index} className={page === index + 1 ? "uk-active" : null}>
         <Button
           color="text"
-          height="1-1"
+          style-height="100%"
           onClick={() =>
             onPageChange({ previousPage: page, nextPage: index + 1, onChange })
           }
@@ -38,7 +38,7 @@ const Pagination = ({ count, page, limit, onChange, ...props }) => {
       <li className={page === 1 ? "uk-disabled" : null}>
         <Button
           color="text"
-          height="1-1"
+          style-height="100%"
           onClick={() =>
             onPageChange({
               previousPage: page,
@@ -54,7 +54,7 @@ const Pagination = ({ count, page, limit, onChange, ...props }) => {
       <li className={page === loops ? "uk-disabled" : null}>
         <Button
           color="text"
-          height="1-1"
+          style-height="100%"
           onClick={() =>
             onPageChange({ previousPage: page, nextPage: page + 1, onChange })
           }

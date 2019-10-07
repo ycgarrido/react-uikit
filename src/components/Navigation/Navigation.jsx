@@ -1,6 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { List, Icon, Image, Container, Separator } from "..";
+import List from "../List";
+import Icon from "../Icon";
+import Image from "../Image";
+import Container from "../Container";
+import Separator from "../Separator";
 
 const Navigation = ({ items, ...props }) => {
   return (

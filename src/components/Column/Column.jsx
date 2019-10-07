@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { useStyles } from "../../helpers";
+import useStyles from "../../helpers/useStyles";
 
 const Column = ({ children, childrenWidth, divider, ...props }) => {
   let cls = `uk-column-${childrenWidth} ${useStyles(props)}`;
