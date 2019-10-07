@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import useStyles from "../../../helpers/useStyles";
+import useStyles from "@kamila-lab/use-styles";
 import Body from "./Body";
 import Cell from "./Cell";
 import Column from "./Column";

@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
+import useStyles from "@kamila-lab/use-styles";
 import Button from "../Button";
-import useStyles from "../../helpers/useStyles";
 
 const numbers = ({ page, onChange, loops }) => {
   const elements = [];

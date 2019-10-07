@@ -1,5 +1,5 @@
 import React from "react";
-import useStyles from "../../helpers/useStyles";
+import useStyles from "@kamila-lab/use-styles";
 import Container from "../Container";
 import Advanced from "./atoms/Advanced";
 import Body from "./atoms/Body";

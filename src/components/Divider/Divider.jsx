@@ -1,5 +1,5 @@
 import React from "react";
-import useStyles from "../../helpers/useStyles";
+import useStyles from "@kamila-lab/use-styles";
 
 const Divider = props => {
   let cls = useStyles(props);

@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import useStyles from "../../helpers/useStyles";
+import useStyles from "@kamila-lab/use-styles";
 import Button from "../Button";
 
 const Dropdown = ({ children, icon, label, color, size, ...props }) => {

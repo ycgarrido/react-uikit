@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import useStyles from "../../helpers/useStyles";
+import useStyles from "@kamila-lab/use-styles";
 import Container from "../Container";
 
 const Navbar = ({ transparent, sticky, children, ...props }) => {
