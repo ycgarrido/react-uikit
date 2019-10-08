@@ -9,13 +9,15 @@ const Modal = {};
 const propTypes = {
   id: PropTypes.string,
   header: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
-  footer: PropTypes.oneOfType([PropTypes.string, PropTypes.node])
+  footer: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+  className: PropTypes.string
 };
 
 const defaultProps = {
   header: null,
   id: null,
-  footer: null
+  footer: null,
+  className: null
 };
 
 Modal.Confirm = ({
@@ -25,7 +27,8 @@ Modal.Confirm = ({
   message,
   onCancel,
   onAccept,
-  closeWhenAccept
+  closeWhenAccept,
+  className
 }) => {
   const reference = React.useRef(null);
 
@@ -53,6 +56,7 @@ Modal.Confirm = ({
       ref={ref => {
         reference.current = ref;
       }}
+      className={className}
     >
       <Container className="uk-modal-dialog uk-modal-body">
         {header && <h4 className="uk-h4">{header}</h4>}
@@ -95,9 +99,9 @@ Modal.Confirm.defaultProps = {
   onCancel: () => {}
 };
 
-Modal.Custom = ({ header, id, children, footer }) => {
+Modal.Custom = ({ header, id, children, footer, className }) => {
   return (
-    <div id={id} data-uk-modal>
+    <div id={id} data-uk-modal className={className}>
       <Container className="uk-modal-dialog">
         {header && <Container className="uk-modal-header">{header}</Container>}
         {children && (

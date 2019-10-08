@@ -145,7 +145,14 @@ const Advanced = ({
                 style-flex="1"
                 style-margin="0"
               >
-                {showSimpleFilter && <Search onChange={onSearch} />}
+                {showSimpleFilter && (
+                  <Search
+                    onChange={onSearch}
+                    style={{
+                      ".uk-form-controls .uk-input": { height: "30px" }
+                    }}
+                  />
+                )}
                 {showAdvancedFilter && (
                   <Button
                     style-margin-left="10px"
@@ -233,7 +240,7 @@ const Advanced = ({
                           </Column>
                         ) : null
                       )}
-                      <Column style-width="40px" />
+                      <Column style-width="70px" />
                     </Row>
                   </Head>
                 )}

@@ -156,12 +156,7 @@ const Remote = ({
       toolbar={
         <>
           {showAddButton && (
-            <Button
-              color="primary"
-              size="small"
-              float="left"
-              onClick={onCreate}
-            >
+            <Button color="primary" size="small" onClick={onCreate}>
               Add New
             </Button>
           )}
@@ -171,7 +166,6 @@ const Remote = ({
                 marginSmallLeft
                 color="danger"
                 size="small"
-                float="left"
                 toggle="target: #remove-all-modal"
               >
                 Remove
