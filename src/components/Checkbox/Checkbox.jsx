@@ -17,7 +17,7 @@ const Checkbox = ({ checked, label, labelAlign, onChange, ...props }) => {
   const Label = (
     <label
       htmlFor={`kamila-checkbox-${id}`}
-      className="uk-form-label uk-margin-small-left uk-margin-small-right"
+      className="uk-form-label uk-margin-small-left uk-margin-small-right uk-margin-remove-bottom"
     >
       {label}
     </label>

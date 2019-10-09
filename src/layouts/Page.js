@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { isBrowser } from "../helpers/browser";
 
-import "uikit/dist/css/uikit.min.css";
+import "../sass/index.scss";
 
 const Main = ({ children }) => {
   const [loaded, setLoaded] = React.useState(

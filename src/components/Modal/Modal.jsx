@@ -1,4 +1,5 @@
 import React from "react";
+import useStyles from "@kamila-lab/use-styles";
 import PropTypes from "prop-types";
 import Container from "../Container";
 import Button from "../Button";
@@ -28,8 +29,10 @@ Modal.Confirm = ({
   onCancel,
   onAccept,
   closeWhenAccept,
-  className
+  className,
+  ...props
 }) => {
+  const cls = useStyles(props);
   const reference = React.useRef(null);
 
   const close = () => {
@@ -56,7 +59,7 @@ Modal.Confirm = ({
       ref={ref => {
         reference.current = ref;
       }}
-      className={className}
+      className={cls}
     >
       <Container className="uk-modal-dialog uk-modal-body">
         {header && <h4 className="uk-h4">{header}</h4>}
@@ -99,9 +102,10 @@ Modal.Confirm.defaultProps = {
   onCancel: () => {}
 };
 
-Modal.Custom = ({ header, id, children, footer, className }) => {
+Modal.Custom = ({ header, id, children, footer, className, ...props }) => {
+  const cls = useStyles(props);
   return (
-    <div id={id} data-uk-modal className={className}>
+    <div id={id} data-uk-modal className={cls}>
       <Container className="uk-modal-dialog">
         {header && <Container className="uk-modal-header">{header}</Container>}
         {children && (

@@ -177,9 +177,12 @@ const Advanced = ({
                     label="Columns"
                     style-margin-left="10px"
                   >
-                    <List>
+                    <List style-margin-bottom="0" style-padding="5px">
                       {columns.map(col => (
-                        <List.Item key={col.ui.index}>
+                        <List.Item
+                          key={col.ui.index}
+                          style-margin-top="0!important"
+                        >
                           <Checkbox
                             checked={visibleColumns.includes(col.ui.index)}
                             onChange={e =>
