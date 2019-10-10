@@ -26,7 +26,8 @@ const Remote = ({
   showSimpleFilter,
   selectionType,
   onSelectionChange,
-  showAddButton
+  showAddButton,
+  forwardRef
 }) => {
   const [loadingData, setLoadingData] = React.useState(false);
   const [data, setData] = React.useState([]);
@@ -124,6 +125,15 @@ const Remote = ({
     _count({ query: value });
   };
 
+  const reload = () => {
+    _find({ limit, page, sort, query });
+    _count({ query });
+  };
+
+  React.useImperativeHandle(forwardRef, () => ({
+    reload
+  }));
+
   return (
     <Advanced
       columns={columns}
@@ -214,7 +224,8 @@ Remote.propTypes = {
   showLimit: PropTypes.bool,
   showPagination: PropTypes.bool,
   seleccionable: PropTypes.bool,
-  showSimpleFilter: PropTypes.bool
+  showSimpleFilter: PropTypes.bool,
+  forwardRef: PropTypes.objectOf(PropTypes.any)
 };
 
 Remote.defaultProps = {
@@ -239,7 +250,8 @@ Remote.defaultProps = {
   showPagination: true,
   seleccionable: true,
   selectionType: "multiple",
-  showSimpleFilter: true
+  showSimpleFilter: true,
+  forwardRef: null
 };
 
 export default React.memo(Remote);
