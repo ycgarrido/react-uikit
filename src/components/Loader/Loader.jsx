@@ -20,7 +20,7 @@ const Loader = ({ label, showSpinner }) => {
         style-text-align="center"
       >
         {showSpinner && <Spinner />}
-        {label && <Container>Loading...</Container>}
+        {label && <Container>{label}</Container>}
       </Container>
     </Container>
   );
