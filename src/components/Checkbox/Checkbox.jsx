@@ -7,8 +7,9 @@ import useId from "../../hooks/useId";
 const Checkbox = ({ checked, label, labelAlign, onChange, ...props }) => {
   const [_checked, _setChecked] = React.useState(checked);
   const id = useId();
-  let cls = `uk-checkbox ${useStyles(props)}`;
-  cls = cls || null;
+  let { className } = useStyles({ props });
+  className = className ? `uk-checkbox ${className}` : "uk-checkbox";
+  className = className || null;
 
   React.useEffect(() => {
     if (checked !== _checked) _setChecked(checked);
@@ -36,7 +37,7 @@ const Checkbox = ({ checked, label, labelAlign, onChange, ...props }) => {
       <Container className="uk-form-controls">
         {label && labelAlign === "left" && Label}
         <input
-          className={cls}
+          className={className}
           type="checkbox"
           checked={_checked}
           onChange={handleChecked}

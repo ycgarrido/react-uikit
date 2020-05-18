@@ -4,26 +4,32 @@ import Card from "../../src/components/Card";
 import Image from "../../src/components/Image";
 import Page from "../../src/layouts/Page";
 import "../../src/sass/index.scss";
+import Grid from "../../src/components/Grid";
+import Column from "../../src/components/Column";
 
 export default { title: "Card", decorators: [withKnobs] };
 
 export const basic = () => (
   <Page>
-    <Card
-      color={select(
-        "color",
-        {
-          primary: "primary",
-          default: "default",
-          secondary: "secondary"
-        },
-        "default"
-      )}
-      loading={boolean("loading", false)}
-      style={object("style", { padding: "24px", margin: "60px" })}
-    >
-      Hello Card
-    </Card>
+    <Grid style={{ padding: "24px", margin: "0" }}>
+      <Column>
+        <Card
+          color={select(
+            "color",
+            {
+              primary: "primary",
+              default: "default",
+              secondary: "secondary"
+            },
+            "default"
+          )}
+          loading={boolean("loading", false)}
+          style={object("style", { padding: "24px" })}
+        >
+          Hello Card
+        </Card>
+      </Column>
+    </Grid>
   </Page>
 );
 

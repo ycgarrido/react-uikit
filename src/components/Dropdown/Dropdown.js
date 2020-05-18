@@ -4,11 +4,11 @@ import useStyles from "@kamila-lab/use-styles";
 import Button from "../Button";
 
 const Dropdown = ({ children, icon, label, color, size, ...props }) => {
-  let cls = `${useStyles(props)}`;
-  cls = cls || null;
+  let { className } = useStyles({ props });
+  className = className || null;
   return (
     <>
-      <Button className={cls} icon={icon} size={size} color={color}>
+      <Button className={className} icon={icon} size={size} color={color}>
         {label}
       </Button>
       <div

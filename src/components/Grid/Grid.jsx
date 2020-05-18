@@ -3,11 +3,12 @@ import PropTypes from "prop-types";
 import useStyles from "@kamila-lab/use-styles";
 
 const Grid = ({ children, size, ...props }) => {
-  let cls = `uk-grid ${useStyles(props)}`;
-  if (size) cls += ` uk-grid-${size}`;
-  cls = cls || null;
+  let { className } = useStyles({ props });
+  className = className ? `uk-grid ${className}` : "uk-grid";
+  if (size) className += ` uk-grid-${size}`;
+  className = className || null;
   return (
-    <div data-uk-grid className={cls}>
+    <div data-uk-grid className={className}>
       {children}
     </div>
   );
