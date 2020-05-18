@@ -5,11 +5,11 @@ import Container from "../Container";
 import Loader from "../Loader";
 
 const Card = ({ color, children, loading, ...props }) => {
-  let cls = useStyles(props);
-  if (color) cls += ` uk-card uk-card-${color}`;
-  cls = cls || null;
+  let { className } = useStyles({ props });
+  className = className ? `uk-card ${className}` : "uk-card";
+  if (color) className += ` uk-card-${color}`;
   return (
-    <Container className={cls}>
+    <Container className={className}>
       {loading && <Loader />}
       {children}
     </Container>
@@ -17,13 +17,15 @@ const Card = ({ color, children, loading, ...props }) => {
 };
 
 Card.Header = ({ children, ...props }) => {
-  let cls = `uk-card-header ${useStyles(props)}`;
-  return <div className={cls}>{children}</div>;
+  let { className } = useStyles({ props });
+  className = className ? `uk-card-header ${className}` : "uk-card-header";
+  return <div className={className}>{children}</div>;
 };
 
 Card.Body = ({ children, ...props }) => {
-  let cls = `uk-card-body ${useStyles(props)}`;
-  return <div className={cls}>{children}</div>;
+  let { className } = useStyles({ props });
+  className = className ? `uk-card-body ${className}` : "uk-card-body";
+  return <div className={className}>{children}</div>;
 };
 
 Card.propTypes = {

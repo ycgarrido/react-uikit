@@ -6,18 +6,18 @@ import Spinner from "../Spinner";
 const Loader = ({ label, showSpinner }) => {
   return (
     <Container
-      style-position="absolute"
-      style-width="100%"
-      style-height="100%"
-      style-display="flex"
-      style-flex-direction="column"
-      style-background-color="#ffffffeb"
-      style-z-index="1"
+      style={{
+        position: "absolute",
+        width: "100%",
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
+        backgroundColor: "#ffffffeb",
+        zIndex: "1"
+      }}
     >
       <Container
-        style-margin-top="auto"
-        style-margin-bottom="auto"
-        style-text-align="center"
+        style={{ marginTop: "auto", marginBottom: "auto", textAlign: "center" }}
       >
         {showSpinner && <Spinner />}
         {label && <Container>{label}</Container>}

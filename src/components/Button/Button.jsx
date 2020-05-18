@@ -16,12 +16,13 @@ const Button = ({
   tooltip,
   ...props
 }) => {
-  let cls = `uk-button ${useStyles(props)}`;
-  if (color) cls += ` uk-button-${color}`;
-  if (size) cls += ` uk-button-${size}`;
+  let { className } = useStyles({ props });
+  className = className ? `${className} uk-button` : "uk-button";
+  if (color) className += ` uk-button-${color}`;
+  if (size) className += ` uk-button-${size}`;
   return (
     <button
-      className={cls}
+      className={className}
       onClick={onClick}
       data-uk-toggle={toggle}
       disabled={disabled}

@@ -63,3 +63,5 @@ typings/
 #Dist folder for public in npm
 dist/
 
+
+.vercel

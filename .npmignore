@@ -1,1 +1,6 @@
 /src
+.storybook
+/node_modules
+.babelrc
+.gitignore
+.npmignore

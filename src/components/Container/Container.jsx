@@ -11,13 +11,14 @@ const Container = ({
   onMouseLeave,
   ...props
 }) => {
-  let cls = `uk-content ${useStyles(props)}`;
-  if (size) cls += ` uk-container uk-container-${size}`;
-  cls = cls || null;
+  let { className } = useStyles({ props });
+  className += className ? `uk-content ${className}` : "uk-content";
+  if (size) className += ` uk-container uk-container-${size}`;
+  className = className || null;
   return (
     <div
       data-uk-height-match={heightMatch}
-      className={cls}
+      className={className}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
     >

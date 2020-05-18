@@ -3,9 +3,9 @@ import PropTypes from "prop-types";
 import useStyles from "@kamila-lab/use-styles";
 
 const Image = ({ alt, src, width, ...props }) => {
-  let cls = `${useStyles(props)}`;
-  cls = cls || null;
-  return <img src={src} className={cls} alt={alt} width={width} />;
+  let { className } = useStyles({ props });
+  className = className || null;
+  return <img src={src} className={className} alt={alt} width={width} />;
 };
 
 Image.propTypes = {

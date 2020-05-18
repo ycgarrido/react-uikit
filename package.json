@@ -6,7 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "prepublishOnly": "npm run transpile",
-    "transpile": "babel src -d dist --copy-files"
+    "transpile": "babel src -d dist --copy-files",
+    "storybook": "start-storybook",
+    "build": "build-storybook -c .storybook -o public"
   },
   "repository": {
     "type": "git",
@@ -18,7 +20,8 @@
     "web",
     "develop",
     "framework",
-    "ui"
+    "ui",
+    "storybook"
   ],
   "author": "ycgarrido@gmail.com",
   "license": "MIT",
@@ -27,16 +30,26 @@
   },
   "homepage": "https://github.com/ycgarrido/react-uikit#readme",
   "dependencies": {
-    "@kamila-lab/use-styles": "1.1.2",
+    "@kamila-lab/use-styles": "^2.0.0",
+    "@storybook/addon-knobs": "^5.3.18",
+    "@storybook/addon-storysource": "^5.3.18",
     "object-path": "^0.11.4",
     "uikit": "^3.2.0",
     "uuid": "^3.3.3"
   },
   "devDependencies": {
     "@babel/cli": "^7.5.5",
-    "@babel/core": "^7.5.5",
+    "@babel/core": "^7.9.6",
     "@babel/plugin-proposal-class-properties": "^7.5.5",
     "@babel/preset-env": "^7.5.5",
-    "@babel/preset-react": "^7.0.0"
+    "@babel/preset-react": "^7.0.0",
+    "@storybook/react": "^5.3.18",
+    "babel-loader": "^8.1.0",
+    "css-loader": "^3.5.3",
+    "node-sass": "^4.14.1",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "sass-loader": "^8.0.2",
+    "style-loader": "^1.2.1"
   }
 }
