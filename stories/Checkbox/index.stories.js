@@ -1,9 +1,9 @@
 import React from "react";
 import { withKnobs, select, text, boolean } from "@storybook/addon-knobs";
-import Checkbox from "../../src/components/Checkbox";
+import Checkbox from "../../src/components/basic/Checkbox";
 import Page from "../../src/layouts/Page";
 import "../../src/sass/index.scss";
-import Grid from "../../src/components/Grid";
+import Grid from "../../src/components/layout/Grid";
 
 export default { title: "Checkbox", decorators: [withKnobs] };
 

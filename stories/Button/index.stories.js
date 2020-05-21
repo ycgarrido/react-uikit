@@ -6,7 +6,7 @@ import {
   boolean,
   number
 } from "@storybook/addon-knobs";
-import Button from "../../src/components/Button";
+import Button from "../../src/components/basic/Button";
 import Page from "../../src/layouts/Page";
 import "../../src/sass/index.scss";
 

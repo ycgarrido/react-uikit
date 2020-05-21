@@ -1,8 +1,8 @@
 import React from "react";
 import { withKnobs, select, text } from "@storybook/addon-knobs";
-import Dropdown from "../../src/components/Dropdown";
-import Grid from "../../src/components/Grid";
-import Container from "../../src/components/Container";
+import Dropdown from "../../src/components/basic/Dropdown";
+import Grid from "../../src/components/layout/Grid";
+import Container from "../../src/components/layout/Container";
 import Page from "../../src/layouts/Page";
 import "../../src/sass/index.scss";
 

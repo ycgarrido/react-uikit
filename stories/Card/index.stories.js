@@ -1,11 +1,11 @@
 import React from "react";
 import { withKnobs, select, boolean, object } from "@storybook/addon-knobs";
-import Card from "../../src/components/Card";
-import Image from "../../src/components/Image";
+import Card from "../../src/components/card/Card";
+import Image from "../../src/components/basic/Image";
 import Page from "../../src/layouts/Page";
 import "../../src/sass/index.scss";
-import Grid from "../../src/components/Grid";
-import Column from "../../src/components/Column";
+import Grid from "../../src/components/layout/Grid";
+import Column from "../../src/components/layout/Column";
 
 export default { title: "Card", decorators: [withKnobs] };
 
